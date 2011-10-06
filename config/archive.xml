@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzArchiveModuleBasic" scope="archive-module"/>
+   <!-- <plugin name="dmzArchivePluginAutoLoad"/> -->
+   <!--<plugin name="dmzArchivePluginMessageLoad" scope="archive-message-load"/>-->
+   <plugin name="dmzArchivePluginAutoCache" scope="archive-auto-cache"/>
+   <plugin name="dmzArchivePluginObject" scope="archive-object"/>
+<!--   <plugin name="dmzArchivePluginUndo"/>-->
+</plugin-list>
+<archive-module>
+   <clear-archive message="dmzClearArchiveMessage"/>
+   <archive version="6" clear-old="true"/>
+</archive-module>
+<archive-object>
+   <filter>
+      <object-type-set>
+<!--         <object-type name="map_push_pin"/>-->
+      </object-type-set>
+      <attribute name="_publish">
+         <mask name="flag"/>
+      </attribute>
+      <attribute name="_fetch">
+         <mask name="flag"/>
+      </attribute>
+      <attribute name="canvas_link">
+         <mask name="link"/>
+      </attribute>
+   </filter>
+</archive-object>
+</dmz>

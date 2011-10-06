@@ -1,0 +1,5 @@
+require "qtshell"
+
+qtshell.set_up ("mindmap")
+lmk.add_files ({"mindmap.rc"},{win32 = true})
+

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzQtModuleMainWindowBasic" scope="main-window"/>
+   <plugin name="dmzQtModuleCanvasBasic" unique="canvas"/>
+   <plugin name="dmzQtModuleDropEventToMessage" unique="drop-event"/>
+   <plugin name="dmzQtPluginCanvasObject" unique="canvas-object"/>
+   <plugin name="dmzQtPluginCanvasLink" unique="canvas-link"/>
+   <plugin name="dmzQtPluginCanvasZoomPan" unique="canvas-zoom"/>
+   <plugin name="dmzQtPluginVersion"/>
+   <plugin name="dmzQtPluginIconPalletTool" unique="icon-pallet"/>
+   <plugin name="dmzRenderModulePickBasic"/>
+   <plugin name="dmzQtPluginRenderPickCanvas" unique="canvas-pick"/>
+</plugin-list>
+<main-window>
+   <corners>
+      <top right="true" left="true"/>
+      <bottom right="true" left="true"/>
+   </corners>
+   <window title="DMZ: Mindmap"/>
+   <central-widget name="canvas"/>
+   <menu-bar>
+      <menu text="&amp;File"/>
+      <menu text="&amp;Edit"/>
+      <menu text="&amp;Window"/>
+      <menu text="&amp;Help"/>
+   </menu-bar>
+   <dock-windows>
+   </dock-windows>
+</main-window>
+<canvas>
+   <canvas opengl="false" antialiasing="true" textantialiasing="true">
+      <zoom min="0.5" max="2.0" default="0.5" step="0.5"/>
+   </canvas>
+   <scene>
+      <background grid="true"/>
+      <min x="-1000" y="-1000"/>
+      <max x="1000" y="1000"/>
+   </scene>
+   <scrollbars value="false"/>
+</canvas>
+<drop-event>
+   <message name="Drop_Create_Message"/>
+</drop-event>
+<canvas-object>
+   <plugin-list>
+      <plugin name="dmzQtPluginCanvasObjectBasic" unique="canvas-object-basic"/>
+   </plugin-list>
+   <canvas-object-basic>
+      <defaults zValue="1" itemIgnoresTransformations="false"/>
+      <template name="icon">
+         <items>
+            <group name="base node">
+               <image name="node" resource="base"/>
+               <image name="node-highlight" resource="highlight"/>
+               <image name="node-select" resource="selected"/>
+               <image name="group-all" resource="group-all"/>
+               <image name="group-0" resource="group-0"/>
+               <image name="group-1" resource="group-1"/>
+               <image name="group-2" resource="group-2"/>
+               <image name="group-3" resource="group-3"/>
+               <image name="group-4" resource="group-4"/>
+               <image name="group-5" resource="group-5"/>
+               <image name="group-6" resource="group-6"/>
+               <text name="name">
+                  <textColor>
+                     <string value="white"/>
+                     <alpha value="0.75"/>
+                  </textColor>
+                  <outlineColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </outlineColor>
+                  <backgroundColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </backgroundColor>
+                  <translate name="node" x="0" y="30"/>
+                  <alignment value="center"/>
+                  <scale x="1.5" y="1.5"/>
+               </text>
+            </group>
+         </items>
+         <text>
+            <item name="name" attribute="label"/>
+         </text>
+         <switch>
+            <state group="base node">
+               <item name="node"/>
+               <item name="name"/>
+            </state>
+            <state name="Highlight" group="base node">
+               <item name="node-highlight"/>
+               <item name="name"/>
+            </state>
+            <state name="Selected" group="base node">
+               <item name="node-select"/>
+               <item name="name"/>
+            </state>
+            <state name="Group_Color_All" group="base node">
+               <item name="name"/>
+               <item name="group-all"/>
+            </state>
+            <state name="Group_Color_0" group="base node">
+               <item name="name"/>
+               <item name="group-0"/>
+            </state>
+            <state name="Group_Color_1" group="base node">
+               <item name="name"/>
+               <item name="group-1"/>
+            </state>
+            <state name="Group_Color_2" group="base node">
+               <item name="name"/>
+               <item name="group-2"/>
+            </state>
+            <state name="Group_Color_3" group="base node">
+               <item name="name"/>
+               <item name="group-3"/>
+            </state>
+            <state name="Group_Color_4" group="base node">
+               <item name="name"/>
+               <item name="group-4"/>
+            </state>
+            <state name="Group_Color_5" group="base node">
+               <item name="name"/>
+               <item name="group-5"/>
+            </state>
+            <state name="Group_Color_6" group="base node">
+               <item name="name"/>
+               <item name="group-6"/>
+            </state>
+         </switch>
+      </template>
+   </canvas-object-basic>
+</canvas-object>
+<canvas-link>
+   <link name="canvas_link"/>
+   <pen-width value="4"/>
+</canvas-link>
+<canvas-zoom>
+   <zoom min="0.2" max="2.0" default="0.5"/>
+</canvas-zoom>
+<icon-pallet>
+   <use-session value="false"/>
+</icon-pallet>
+<canvas-pick>
+   <order x="0" y="2" z="1"/>
+   <source name="canvas"/>
+   <module>
+      <canvas name="canvas"/>
+   </module>
+</canvas-pick>
+</dmz>

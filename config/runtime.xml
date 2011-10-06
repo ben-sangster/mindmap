@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<runtime>
+   <time>
+      <frequency value="60.0"/>
+   </time>
+   <message name="Update_Tool_Name" monostate="true"/>
+   <state name="No Linking"/>
+   <state name="Selected"/>
+   <state name="Highlight"/>
+   <state name="Infected"/>
+<!-- Group States -->
+   <state name="Group_Color_All"/>
+   <state name="Group_Color_0"/>
+   <state name="Group_Color_1"/>
+   <state name="Group_Color_2"/>
+   <state name="Group_Color_3"/>
+   <state name="Group_Color_4"/>
+   <state name="Group_Color_5"/>
+   <state name="Group_Color_6"/>
+<!-- Vote States -->
+   <state name="Vote_Denied"/>
+   <state name="Vote_Passed"/>
+   <state name="Vote_Failed"/>
+<!-- Object Types -->
+   <object-type name="Tool"/>
+   <object-type name="State Node" parent="Tool"/>
+   <object-type name="Tool Link Node" parent="Tool">
+      <canvas-object/>
+   </object-type>
+   <object-type name="MindData"/>
+   <object-type name="LinkData">
+      <canvas-object/>
+      <canvas-object-basic>
+         <text>
+            <item name="tag" attribute="label"/>
+         </text>
+<!--         <switch>
+            <item name="tag"/>
+         </switch>-->
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="VoteData" parent="MindData"/>
+      <icon-pallet resource="firewall"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="firewall"/>
+            <var name="selected" value="firewall select"/>
+            <var name="highlight" value="firewall highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="QAData" parent="MindData"/>
+      <icon-pallet resource="tablet"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="tablet"/>
+            <var name="selected" value="tablet select"/>
+            <var name="highlight" value="tablet highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="QuestionData" parent="QAData"/>
+   <object-type name="AnswerData" parent="QAData"/>
+   <object-type name="ForumData" parent="MindData">
+      <icon-pallet resource="laptop"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="laptop"/>
+            <var name="selected" value="laptop select"/>
+            <var name="highlight" value="laptop highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="PostData" parent="ForumData"/>
+   <object-type name="CommentData" parent="ForumData"/>
+   <object-type name="MediaData" parent="MindData"/>
+   <object-type name="PDFData" parent="Media">
+         <icon-pallet resource="internet"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="internet"/>
+            <var name="selected" value="internet select"/>
+            <var name="highlight" value="internet highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="VideoData" parent="Media">
+      <icon-pallet resource="workstation"/>
+      <link-list>
+         <object-type name="Network Node"/>
+         <object-type name="Software"/>
+      </link-list>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="workstation"/>
+            <var name="selected" value="workstation select"/>
+            <var name="highlight" value="workstation highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="NewsData" parent="Media">
+      <icon-pallet resource="server"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="server"/>
+            <var name="selected" value="server select"/>
+            <var name="highlight" value="server highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="MemoData" parent="Media">
+      <icon-pallet resource="switch"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="switch"/>
+            <var name="selected" value="switch select"/>
+            <var name="highlight" value="switch highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="LobbyistData" parent="Media">
+      <icon-pallet resource="phone"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <template name="icon">
+            <var name="base" value="phone"/>
+            <var name="selected" value="phone select"/>
+            <var name="highlight" value="phone highlight"/>
+         </template>
+      </canvas-object-basic>
+   </object-type>
+   <object-type name="stance"/>
+   <object-type name="game" parent="stance"/>
+   <object-type name="group" parent="stance"/>
+   <object-type name="user" parent="stance"/>
+   <object-type name="email" parent="stance"/>
+   <object-type name="forum" parent="stance"/>
+   <object-type name="post" parent="stance"/>
+   <object-type name="comment" parent="stance"/>
+   <object-type name="vote" parent="stance"/>
+   <object-type name="map_push_pin" parent="stance"/>
+   <object-type name="advisor" parent="stance"/>
+   <object-type name="media-video" parent="stance"/>
+   <object-type name="media-newspaper" parent="stance"/>
+   <object-type name="media-memo" parent="stance"/>
+   <object-type name="lobbyist" parent="stance"/>
+   <object-type name="question" parent="stance"/>
+   <object-type name="answer" parent="stance"/>
+   <object-type name="decision" parent="stance"/>
+   <object-type name="data" parent="stance"/>
+   <object-type name="help-forum" parent="stance"/>
+   <object-type name="pdf-item" parent="stance"/>
+</runtime>
+</dmz>
