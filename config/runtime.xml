@@ -29,7 +29,8 @@
       <canvas-object/>
    </object-type>
    <object-type name="MindData"/>
-   <object-type name="LinkData">
+   <object-type name="LinkData"/>
+   <object-type name="CanvasLinkData">
       <canvas-object/>
       <canvas-object-basic>
          <text>

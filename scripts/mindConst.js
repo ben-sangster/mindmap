@@ -27,6 +27,8 @@ var dmz =
         , MemoDataType: dmz.objectType.lookup("MemoData")
         , LobbyistData: dmz.objectType.lookup("LobbyistData")
         , LinkData: dmz.objectType.lookup("LinkData")
+        , CanvasLinkData: data.objectType.lookup("CanvasLinkData")
+        , ToolLinkType: dmz.objectType.lookup("Tool Link Node")
         }
 
    , Handles =

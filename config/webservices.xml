@@ -16,7 +16,7 @@
 <web-services-object>
    <filter>
       <object-type-set>
-         <!-- <object-type name="intel"/> -->
+         <object-type name="CanvasLinkData"/>
       </object-type-set>
       <attribute name="Object_Human_In_The_Loop">
          <mask name="flag"/>

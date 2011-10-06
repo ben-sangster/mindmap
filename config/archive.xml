@@ -15,7 +15,7 @@
 <archive-object>
    <filter>
       <object-type-set>
-<!--         <object-type name="map_push_pin"/>-->
+         <object-type name="CanvasLinkData"/>
       </object-type-set>
       <attribute name="_publish">
          <mask name="flag"/>
