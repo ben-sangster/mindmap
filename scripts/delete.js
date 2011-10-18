@@ -10,21 +10,31 @@ dmz.messaging.subscribe(self, "Object_Delete_Message",  function (data) {
 
    var handle = dmz.data.unwrapHandle(data)
      , state
+     , links
      ;
 
+   self.log.warn ("ObjectDeleteMessage:", handle);
    if (handle) {
 
       if (dmz.object.isObject(handle)) {
 
-         dmz.object.unlinkSubObjects(handle, dmz.mind.CanvasLink);
-         dmz.object.unlinkSuperObjects(handle, dmz.mind.CanvasLink);
-         state = dmz.object.state(handle, dmz.mind.MindState);
-         if (!state) {
+         if (dmz.object.type(handle).isOfType(dmz.mind.CanvasLinkData)) {
 
-            if (dmz.object.type(handle).isOfType(dmz.mind.CanvasLinkData)) {}
-            else { self.log.error ("Deleting object with no state:", handle); }
+            links = dmz.object.attributeObjectLinks(handle);
+            links.forEach(dmz.object.unlink);
          }
-         else { dmz.object.state(handle, dmz.mind.MindState, state.unset(dmz.mind.ShowIconState)); }
+         else {
+
+            dmz.object.unlinkSubObjects(handle, dmz.mind.CanvasLink);
+            dmz.object.unlinkSuperObjects(handle, dmz.mind.CanvasLink);
+            state = dmz.object.state(handle, dmz.mind.MindState);
+            if (!state) {
+
+               if (dmz.object.type(handle).isOfType(dmz.mind.CanvasLinkData)) {}
+               else { self.log.error ("Deleting object with no state:", handle); }
+            }
+            else { dmz.object.state(handle, dmz.mind.MindState, state.unset(dmz.mind.ShowIconState)); }
+         }
       }
       else if (dmz.object.isLink(handle)) { dmz.object.unlink(handle); }
    }

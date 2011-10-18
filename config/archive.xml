@@ -31,6 +31,14 @@
          <mask name="text"/>
       </attribute>
       <state name="Highlight"/>
+<!--      <state name="Group_Color_All"/>
+      <state name="Group_Color_0"/>
+      <state name="Group_Color_1"/>
+      <state name="Group_Color_2"/>
+      <state name="Group_Color_3"/>
+      <state name="Group_Color_4"/>
+      <state name="Group_Color_5"/>
+      <state name="Group_Color_6"/>-->
    </filter>
 </archive-object>
 </dmz>

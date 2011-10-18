@@ -5,46 +5,70 @@
    <search>
       <path value="./assets/"/>
    </search>
-<!--   <resource name="firewall" file="Firewall.svg"/>
-   <resource name="firewall highlight" file="FirewallInvert.svg"/>
-   <resource name="firewall select" file="FirewallSelect.svg"/>
-   <resource name="internet" file="Internet.svg"/>
-   <resource name="internet highlight" file="InternetInvert.svg"/>
-   <resource name="internet select" file="InternetSelect.svg"/>
-   <resource name="laptop" file="Laptop.svg"/>
-   <resource name="laptop highlight" file="LaptopInvert.svg"/>
-   <resource name="laptop select" file="LaptopSelect.svg"/>
-   <resource name="malware" file="Malware.svg"/>
-   <resource name="malware highlight" file="MalwareInvert.svg"/>
-   <resource name="malware select" file="MalwareSelect.svg"/>
-   <resource name="phone" file="Phone.svg"/>
-   <resource name="phone highlight" file="PhoneInvert.svg"/>
-   <resource name="phone select" file="PhoneSelect.svg"/>
-   <resource name="server" file="Server.svg"/>
-   <resource name="server highlight" file="ServerInvert.svg"/>
-   <resource name="server select" file="ServerSelect.svg"/>
-   <resource name="switch" file="Switch.svg"/>
-   <resource name="switch highlight" file="SwitchInvert.svg"/>
-   <resource name="switch select" file="SwitchSelect.svg"/>
-   <resource name="tablet" file="Tablet.svg"/>
-   <resource name="tablet highlight" file="TabletInvert.svg"/>
-   <resource name="tablet select" file="TabletSelect.svg"/>
-   <resource name="wireless" file="Wireless.svg"/>
-   <resource name="wireless highlight" file="WirelessInvert.svg"/>
-   <resource name="wireless select" file="WirelessSelect.svg"/>
-   <resource name="workstation" file="Workstation.svg"/>
-   <resource name="workstation highlight" file="WorkstationInvert.svg"/>
-   <resource name="workstation select" file="WorkstationSelect.svg"/>
-   <resource name="not ok" file="X.svg"/>
-   <resource name="infected badge" file="Infected.svg"/>-->
    <resource name="forum-all"  file="forum_All.svg"/>
+   <resource name="forum-0" file="forum_grp01.svg"/>
+   <resource name="forum-1" file="forum_grp02.svg"/>
+   <resource name="forum-2" file="forum_grp03.svg"/>
+   <resource name="forum-3" file="forum_grp04.svg"/>
+   <resource name="forum-4" file="forum_grp05.svg"/>
+   <resource name="forum-5" file="forum_grp06.svg"/>
+   <resource name="forum-6" file="forum_grp07.svg"/>
    <resource name="vote-all"  file="vote_All.svg"/>
+   <resource name="vote-0" file="vote_grp01.svg"/>
+   <resource name="vote-1" file="vote_grp02.svg"/>
+   <resource name="vote-2" file="vote_grp03.svg"/>
+   <resource name="vote-3" file="vote_grp04.svg"/>
+   <resource name="vote-4" file="vote_grp05.svg"/>
+   <resource name="vote-5" file="vote_grp06.svg"/>
+   <resource name="vote-6" file="vote_grp07.svg"/>
    <resource name="video-all"  file="video_All.svg"/>
+   <resource name="video-0" file="video_grp01.svg"/>
+   <resource name="video-1" file="video_grp02.svg"/>
+   <resource name="video-2" file="video_grp03.svg"/>
+   <resource name="video-3" file="video_grp04.svg"/>
+   <resource name="video-4" file="video_grp05.svg"/>
+   <resource name="video-5" file="video_grp06.svg"/>
+   <resource name="video-6" file="video_grp07.svg"/>
    <resource name="newspaper-all"  file="newspaper_All.svg"/>
+   <resource name="newspaper-0" file="newspaper_grp01.svg"/>
+   <resource name="newspaper-1" file="newspaper_grp02.svg"/>
+   <resource name="newspaper-2" file="newspaper_grp03.svg"/>
+   <resource name="newspaper-3" file="newspaper_grp04.svg"/>
+   <resource name="newspaper-4" file="newspaper_grp05.svg"/>
+   <resource name="newspaper-5" file="newspaper_grp06.svg"/>
+   <resource name="newspaper-6" file="newspaper_grp07.svg"/>
    <resource name="memo-all"  file="memo_All.svg"/>
+   <resource name="memo-0" file="memo_grp01.svg"/>
+   <resource name="memo-1" file="memo_grp02.svg"/>
+   <resource name="memo-2" file="memo_grp03.svg"/>
+   <resource name="memo-3" file="memo_grp04.svg"/>
+   <resource name="memo-4" file="memo_grp05.svg"/>
+   <resource name="memo-5" file="memo_grp06.svg"/>
+   <resource name="memo-6" file="memo_grp07.svg"/>
    <resource name="pdf-all"  file="pdf_All.svg"/>
+   <resource name="pdf-0" file="pdf_grp01.svg"/>
+   <resource name="pdf-1" file="pdf_grp02.svg"/>
+   <resource name="pdf-2" file="pdf_grp03.svg"/>
+   <resource name="pdf-3" file="pdf_grp04.svg"/>
+   <resource name="pdf-4" file="pdf_grp05.svg"/>
+   <resource name="pdf-5" file="pdf_grp06.svg"/>
+   <resource name="pdf-6" file="pdf_grp07.svg"/>
    <resource name="lobbyist-all"  file="lobbyist_All.svg"/>
+   <resource name="lobbyist-0" file="lobbyist_grp01.svg"/>
+   <resource name="lobbyist-1" file="lobbyist_grp02.svg"/>
+   <resource name="lobbyist-2" file="lobbyist_grp03.svg"/>
+   <resource name="lobbyist-3" file="lobbyist_grp04.svg"/>
+   <resource name="lobbyist-4" file="lobbyist_grp05.svg"/>
+   <resource name="lobbyist-5" file="lobbyist_grp06.svg"/>
+   <resource name="lobbyist-6" file="lobbyist_grp07.svg"/>
    <resource name="qa-all" file="QA_All.svg"/>
+   <resource name="qa-0" file="qa_grp01.svg"/>
+   <resource name="qa-1" file="qa_grp02.svg"/>
+   <resource name="qa-2" file="qa_grp03.svg"/>
+   <resource name="qa-3" file="qa_grp04.svg"/>
+   <resource name="qa-4" file="qa_grp05.svg"/>
+   <resource name="qa-5" file="qa_grp06.svg"/>
+   <resource name="qa-6" file="qa_grp07.svg"/>
    <resource name="voteYes" file="voteYes.svg"/>
    <resource name="voteNo" file="voteNo.svg"/>
    <resource name="voteDenied" file="voteDenied.svg"/>

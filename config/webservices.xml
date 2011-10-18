@@ -35,6 +35,14 @@
          <mask name="text"/>
       </attribute>
       <state name="Highlight"/>
+<!--      <state name="Group_Color_All"/>
+      <state name="Group_Color_0"/>
+      <state name="Group_Color_1"/>
+      <state name="Group_Color_2"/>
+      <state name="Group_Color_3"/>
+      <state name="Group_Color_4"/>
+      <state name="Group_Color_5"/>
+      <state name="Group_Color_6"/>-->
       <!-- <state name="Selected"/> -->
    </filter>
 <!--   <db app="stance_1003_1004"/> -->
@@ -43,7 +51,7 @@
 </web-services-object>
 <archive-auto-cache>
    <auto-restore value="false"/>
-   <message skipped="Login_Skipped" load="Login_Success_Message" database="Login_Message"/>
+   <message skipped="Login_Skipped_Message" load="Login_Success_Message" database="Login_Message"/>
 </archive-auto-cache>
 <login-dialog>
    <login-target name="dmzWebServicesModuleQt"/>

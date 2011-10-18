@@ -6,15 +6,16 @@ var dmz =
       , messaging: require("dmz/runtime/messaging")
       , object: require("dmz/components/object")
       , objectType: require("dmz/runtime/objectType")
-      , undo: require("dmz/runtime/undo")
       }
    // Variables
    , _firstHandle = dmz.object.create(dmz.mind.ToolLinkType)
    , _secondHandle = dmz.object.create(dmz.mind.ToolLinkType)
    , _toolLink
    , _startNode
+   , Exiting = false
    ;
 
+dmz.messaging.subscribe(self, "DMZ_NORMAL_EXIT_MESSAGE", function () { Exiting = true; });
 
 (function () {
 
@@ -72,7 +73,6 @@ dmz.messaging.subscribe(self, "Update_Link_Position_Message", function (data) {
 dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
 
    var handle
-     , undo
      , linkHandle
      , endNode
      ;
@@ -95,7 +95,6 @@ dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
          }
          else if (dmz.object.isObject(endNode) && _startNode) {
 
-            undo = dmz.undo.startRecord("Create Network Link");
             linkHandle = dmz.object.link(dmz.mind.CanvasLink, _startNode, endNode);
             if (linkHandle) {
 
@@ -103,9 +102,6 @@ dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
                dmz.object.activate(handle);
                dmz.object.linkAttributeObject(linkHandle, handle);
             }
-
-            if (dmz.object.isLink(linkHandle)) { dmz.undo.stopRecord(undo); }
-            else { dmz.undo.abortRecord(undo); }
          }
       }
    }
@@ -141,9 +137,9 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
       }
       else {
 
-         self.log.error ("CanvasLink:", superHandle, subHandle);
          linkHandle =
             dmz.object.linkHandle(dmz.mind.ServerLink, superHandle, subHandle) ||
+            dmz.object.linkHandle(dmz.mind.ServerLink, subHandle, superHandle) ||
             dmz.object.link(dmz.mind.ServerLink, superHandle, subHandle);
          if (linkHandle) {
 
@@ -167,6 +163,7 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
 
       linkHandle =
          dmz.object.linkHandle(dmz.mind.CanvasLink, superHandle, subHandle) ||
+         dmz.object.linkHandle(dmz.mind.CanvasLink, subHandle, superHandle) ||
          dmz.object.link(dmz.mind.CanvasLink, superHandle, subHandle);
 
       if (linkHandle) {
@@ -181,11 +178,15 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
 dmz.object.unlink.observe(self, dmz.mind.CanvasLink,
 function (linkObjHandle, attrHandle, superHandle, subHandle) {
 
-   var linkHandle = dmz.object.linkHandle(dmz.mind.ServerLink, superHandle, subHandle)
+   var linkHandle
      , handle
      ;
 
-   if (linkHandle) {
+   linkHandle =
+      dmz.object.linkHandle(dmz.mind.ServerLink, superHandle, subHandle) ||
+      dmz.object.linkHandle(dmz.mind.ServerLink, subHandle, superHandle);
+
+   if (linkHandle && !Exiting) {
 
       handle = dmz.object.linkAttributeObject(linkHandle);
       dmz.object.flag(handle, dmz.mind.MindActive, false);

@@ -58,13 +58,15 @@
          <items>
             <group name="base node">
                <image name="group-all" resource="group-all"/>
-<!--               <image name="group-0" resource="group-0"/>
+               <image name="group-0" resource="group-0"/>
                <image name="group-1" resource="group-1"/>
                <image name="group-2" resource="group-2"/>
                <image name="group-3" resource="group-3"/>
                <image name="group-4" resource="group-4"/>
                <image name="group-5" resource="group-5"/>
-               <image name="group-6" resource="group-6"/>-->
+               <image name="group-6" resource="group-6"/>
+            </group>
+            <group name="text">
                <text name="name">
                   <textColor>
                      <string value="white"/>
@@ -102,13 +104,13 @@
             </group>
             <group name="vote-overlay">
                <image name="voteYes" resource="voteYes">
-                  <translate name="group-all" x="-2" y="-2"/>
+                  <translate name="group-all" x="-1" y="0"/>
                </image>
                <image name="voteNo" resource="voteNo">
-                  <translate name="group-all" x="-1" y="-1"/>
+                  <translate name="group-all" x="-1" y="0"/>
                </image>
                <image name="voteDenied" resource="voteDenied">
-                  <translate name="group-all" x="-2" y="-2"/>
+                  <translate name="group-all" x="-1" y="0"/>
                </image>
             </group>
          </items>
@@ -117,59 +119,45 @@
             <item name="name-highlight" attribute="mind_label"/>
          </text>
          <switch>
-            <state name="Show_Icon" group="base node">
-               <item name="group-all"/>
+            <state name="Show_Icon" group="text">
                <item name="name"/>
             </state>
-            <state name="Highlight" group="base node">
-               <item name="group-all"/>
+            <state name="Highlight" group="text">
                <item name="name-highlight"/>
             </state>
-            <state name="Vote_Denied" group="vote-overlay">
+            <state name="Vote_Denied | Show_Icon" group="vote-overlay">
                <item name="voteDenied"/>
             </state>
-            <state name="Vote_Passed" group="vote-overlay">
+            <state name="Vote_Passed | Show_Icon" group="vote-overlay">
                <item name="voteYes"/>
             </state>
-            <state name="Vote_Failed" group="vote-overlay">
+            <state name="Vote_Failed | Show_Icon" group="vote-overlay">
                <item name="voteNo"/>
             </state>
-<!--        <state name="Selected" group="base node">
-               <item name="node-select"/>
-               <item name="name"/>
-            </state>-->
-            <state name="Group_Color_All" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_All | Show_Icon" group="base node">
                <item name="group-all"/>
             </state>
-<!--            <state name="Group_Color_0" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_0 | Show_Icon" group="base node">
                <item name="group-0"/>
             </state>
-            <state name="Group_Color_1" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_1 | Show_Icon" group="base node">
                <item name="group-1"/>
             </state>
-            <state name="Group_Color_2" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_2 | Show_Icon" group="base node">
                <item name="group-2"/>
             </state>
-            <state name="Group_Color_3" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_3 | Show_Icon" group="base node">
                <item name="group-3"/>
             </state>
-            <state name="Group_Color_4" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_4 | Show_Icon" group="base node">
                <item name="group-4"/>
             </state>
-            <state name="Group_Color_5" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_5 | Show_Icon" group="base node">
                <item name="group-5"/>
             </state>
-            <state name="Group_Color_6" group="base node">
-               <item name="name"/>
+            <state name="Group_Color_6 | Show_Icon" group="base node">
                <item name="group-6"/>
-            </state>-->
+            </state>
          </switch>
       </template>
    </canvas-object-basic>

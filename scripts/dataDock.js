@@ -43,9 +43,22 @@ var dmz =
         )
 
    // Constants
-   , TITLE_LENGTH = 20
+   , TITLE_LENGTH = 40
    , ICON_WIDTH = 64
    , ICON_HEIGHT = 74
+   , GROUP_COLOR_STATES =
+        [ dmz.mind.GroupColor0State
+        , dmz.mind.GroupColor1State
+        , dmz.mind.GroupColor2State
+        , dmz.mind.GroupColor3State
+        , dmz.mind.GroupColor4State
+        , dmz.mind.GroupColor5State
+        , dmz.mind.GroupColor6State
+        ]
+   , GROUP_COLOR_FILTER =
+        dmz.mind.GroupColorAllState.or(GROUP_COLOR_STATES[0].or(GROUP_COLOR_STATES[1].or(
+         GROUP_COLOR_STATES[2].or(GROUP_COLOR_STATES[3].or(GROUP_COLOR_STATES[4].or(
+            GROUP_COLOR_STATES[5].or(GROUP_COLOR_STATES[6])))))))
 
    // Variables
    , widgetStack = []
@@ -156,6 +169,7 @@ updateTitle = function (handle) {
 
    var item = DataItems[handle]
      , attr
+     , str
      ;
 
    if (item) {
@@ -180,7 +194,9 @@ updateTitle = function (handle) {
 
       if (attr) {
 
-         item.title.text((dmz.object.text(handle, attr) || "").substr(0, TITLE_LENGTH) + "...");
+         str = (dmz.object.text(handle, attr) || "");
+         if (str.length > TITLE_LENGTH) { str = str.substr(0, TITLE_LENGTH) + "..."; }
+         item.title.text(str);
       }
    }
 };
@@ -204,8 +220,7 @@ updateIcon = function (handle) {
 
       if (resource) {
 
-         resource = dmz.ui.graph.createPixmap(dmz.resources.findFile(resource));
-         item.icon.pixmap(resource ? resource.scaled(ICON_WIDTH, ICON_HEIGHT) : resource);
+         item.icon.pixmap(dmz.ui.graph.createPixmap(dmz.resources.findFile(resource)));
       }
    }
 }
@@ -337,14 +352,35 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
 
    var position = data.vector(dmz.mind.MindPosition, 0)
      , state
+     , palette
+     , color = dmz.mind.GroupColorAllState
      ;
    if (SelectedWidget) {
 
+      updateGroups(SelectedWidget.handle);
       dmz.object.position(SelectedWidget.handle, dmz.mind.MindPosition, position);
-      state = dmz.object.state(SelectedWidget.handle, dmz.mind.MindState) || dmz.mask.create();
+      if (SelectedWidget.groupList.length == 1) {
+
+         color = GROUP_COLOR_STATES[dmz.object.scalar(SelectedWidget.groupList[0], dmz.stance.ID)] || color;
+      }
+
+      state = dmz.object.state(SelectedWidget.handle, dmz.mind.MindState) || color;
+
+      if (SelectedWidget.type.isOfType(dmz.stance.VoteType)) {
+
+         state = state.unset(dmz.mind.VoteYesState.or(dmz.mind.VoteNoState.or(dmz.mind.VoteDeniedState)));
+         switch (dmz.object.scalar(SelectedWidget.handle, dmz.stance.VoteState)) {
+         case dmz.stance.VOTE_YES: state = state.or(dmz.mind.VoteYesState); break;
+         case dmz.stance.VOTE_NO: state = state.or(dmz.mind.VoteNoState); break;
+         case dmz.stance.VOTE_DENIED: state = state.or(dmz.mind.VoteDeniedState); break
+         default: break;
+         };
+      }
+
       dmz.object.state(SelectedWidget.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState));
-      // fix colors of widget to be default
-      // set state
+      palette = SelectedWidget.widget.palette();
+      palette.color(dmz.ui.color.Window, OrigPalette);
+      SelectedWidget.widget.palette(palette);
       SelectedWidget = false;
    }
 });

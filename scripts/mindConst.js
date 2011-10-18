@@ -39,6 +39,9 @@ var dmz =
         , GroupColor6State: dmz.defs.lookupState("Group_Color_6")
         , ShowIconState: dmz.defs.lookupState("Show_Icon")
         , HighlightState: dmz.defs.lookupState("Highlight")
+        , VoteYesState: dmz.defs.lookupState("Vote_Passed")
+        , VoteNoState: dmz.defs.lookupState("Vote_Failed")
+        , VoteDeniedState: dmz.defs.lookupState("Vote_Denied")
         }
 
    , Functions =
