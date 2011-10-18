@@ -8,7 +8,7 @@
    <plugin name="dmzQtPluginCanvasLink" unique="canvas-link"/>
    <plugin name="dmzQtPluginCanvasZoomPan" unique="canvas-zoom"/>
    <plugin name="dmzQtPluginVersion"/>
-   <plugin name="dmzQtPluginIconPalletTool" unique="icon-pallet"/>
+<!--   <plugin name="dmzQtPluginIconPalletTool" unique="icon-pallet"/> -->
    <plugin name="dmzRenderModulePickBasic"/>
    <plugin name="dmzQtPluginRenderPickCanvas" unique="canvas-pick"/>
 </plugin-list>
@@ -46,22 +46,25 @@
    <plugin-list>
       <plugin name="dmzQtPluginCanvasObjectBasic" unique="canvas-object-basic"/>
    </plugin-list>
+   <attribute>
+      <position name="mind_position"/>
+   </attribute>
    <canvas-object-basic>
       <defaults zValue="1" itemIgnoresTransformations="false"/>
+      <attribute>
+         <state name="mind_state"/>
+      </attribute>
       <template name="icon">
          <items>
             <group name="base node">
-               <image name="node" resource="base"/>
-               <image name="node-highlight" resource="highlight"/>
-               <image name="node-select" resource="selected"/>
                <image name="group-all" resource="group-all"/>
-               <image name="group-0" resource="group-0"/>
+<!--               <image name="group-0" resource="group-0"/>
                <image name="group-1" resource="group-1"/>
                <image name="group-2" resource="group-2"/>
                <image name="group-3" resource="group-3"/>
                <image name="group-4" resource="group-4"/>
                <image name="group-5" resource="group-5"/>
-               <image name="group-6" resource="group-6"/>
+               <image name="group-6" resource="group-6"/>-->
                <text name="name">
                   <textColor>
                      <string value="white"/>
@@ -75,33 +78,71 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="node" x="0" y="30"/>
+                  <translate name="group-all" x="0" y="25"/>
+                  <alignment value="center"/>
+                  <scale x="1.5" y="1.5"/>
+               </text>
+               <text name="name-highlight">
+                  <textColor>
+                     <string value="yellow"/>
+                     <alpha value="0.75"/>
+                  </textColor>
+                  <outlineColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </outlineColor>
+                  <backgroundColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </backgroundColor>
+                  <translate name="group-all" x="0" y="25"/>
                   <alignment value="center"/>
                   <scale x="1.5" y="1.5"/>
                </text>
             </group>
+            <group name="vote-overlay">
+               <image name="voteYes" resource="voteYes">
+                  <translate name="group-all" x="-2" y="-2"/>
+               </image>
+               <image name="voteNo" resource="voteNo">
+                  <translate name="group-all" x="-1" y="-1"/>
+               </image>
+               <image name="voteDenied" resource="voteDenied">
+                  <translate name="group-all" x="-2" y="-2"/>
+               </image>
+            </group>
          </items>
          <text>
-            <item name="name" attribute="label"/>
+            <item name="name" attribute="mind_label"/>
+            <item name="name-highlight" attribute="mind_label"/>
          </text>
          <switch>
-            <state group="base node">
-               <item name="node"/>
+            <state name="Show_Icon" group="base node">
+               <item name="group-all"/>
                <item name="name"/>
             </state>
             <state name="Highlight" group="base node">
-               <item name="node-highlight"/>
-               <item name="name"/>
+               <item name="group-all"/>
+               <item name="name-highlight"/>
             </state>
-            <state name="Selected" group="base node">
+            <state name="Vote_Denied" group="vote-overlay">
+               <item name="voteDenied"/>
+            </state>
+            <state name="Vote_Passed" group="vote-overlay">
+               <item name="voteYes"/>
+            </state>
+            <state name="Vote_Failed" group="vote-overlay">
+               <item name="voteNo"/>
+            </state>
+<!--        <state name="Selected" group="base node">
                <item name="node-select"/>
                <item name="name"/>
-            </state>
+            </state>-->
             <state name="Group_Color_All" group="base node">
                <item name="name"/>
                <item name="group-all"/>
             </state>
-            <state name="Group_Color_0" group="base node">
+<!--            <state name="Group_Color_0" group="base node">
                <item name="name"/>
                <item name="group-0"/>
             </state>
@@ -128,12 +169,15 @@
             <state name="Group_Color_6" group="base node">
                <item name="name"/>
                <item name="group-6"/>
-            </state>
+            </state>-->
          </switch>
       </template>
    </canvas-object-basic>
 </canvas-object>
 <canvas-link>
+   <attribute>
+      <position name="mind_position"/>
+   </attribute>
    <link name="canvas_link"/>
    <pen-width value="4"/>
 </canvas-link>

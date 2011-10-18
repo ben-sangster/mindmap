@@ -4,11 +4,13 @@ var dmz =
        , object: require("dmz/components/object")
        , undo: require("dmz/runtime/undo")
        , vector: require("dmz/types/vector")
+       , mind: require("mindConst")
        }
   // Variables
   , _firstMove = false
   , _item
   , _offset
+  , _pos
   ;
 
 dmz.messaging.subscribe(self, "Select_Object_Message", function (data) {
@@ -31,7 +33,7 @@ dmz.messaging.subscribe(self, "Select_Move_Object_Message", function (data) {
 
       if (_item && _offset && dmz.object.isObject(_item)) {
 
-         pos = dmz.object.position(_item)
+         pos = dmz.object.position(_item, dmz.mind.MindPosition);
 
          if (pos) { _offset = pos.subtract(_offset); }
          else { _offset = dmz.vector.create(); }
@@ -46,9 +48,15 @@ dmz.messaging.subscribe(self, "Select_Move_Object_Message", function (data) {
 
 dmz.messaging.subscribe(self, "Unselect_Move_Object_Message", function (data) {
 
+   if (_item && _pos) {
+
+      dmz.object.position(_item, dmz.mind.MindServerPosition, _pos);
+   }
+
    _item = null;
    _offset = null;
    _firstMove = false;
+   _pos = false;
 });
 
 dmz.messaging.subscribe(self, "Move_Selected_Object_Message", function (data) {
@@ -69,9 +77,19 @@ dmz.messaging.subscribe(self, "Move_Selected_Object_Message", function (data) {
 
       if (_item && pos) {
 
-         dmz.object.position(_item, null, pos.add(_offset));
+         _pos = pos.add(_offset);
+         dmz.object.position(_item, dmz.mind.MindPosition, _pos);
       }
 
       if (undo) {  dmz.undo.stopRecord(undo); }
+   }
+});
+
+dmz.object.position.observe(self, dmz.mind.MindServerPosition, function (handle, attr, value) {
+
+   var canvas = dmz.object.position(handle, dmz.mind.MindPosition);
+   if (!canvas || (canvas.x != value.x) || (canvas.y != value.y) || (canvas.z != value.z)) {
+
+      dmz.object.position(handle, dmz.mind.MindPosition, value);
    }
 });

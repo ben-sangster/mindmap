@@ -10,30 +10,30 @@ var dmz =
        }
   //  Constants
   , VectorAttr = dmz.defs.createNamedHandle("vector")
-  //  Functions 
+  //  Functions
   ;
 
-dmz.messaging.subscribe(self, "Drop_Create_Message",  function (data) {
+//dmz.messaging.subscribe(self, "Drop_Create_Message",  function (data) {
 
-   var pos
-     , obj
-     , undo
-     , currentType = dmz.objectType.lookup(dmz.data.unwrapString(data));
-     ;
+//   var pos
+//     , obj
+//     , undo
+//     , currentType = dmz.objectType.lookup(dmz.data.unwrapString(data));
+//     ;
 
-   if (currentType && data) {
+//   if (currentType && data) {
 
-      pos = data.vector(VectorAttr);
+//      pos = data.vector(VectorAttr);
 
-      if (pos) {
+//      if (pos) {
 
-         undo = dmz.undo.startRecord("Create: " + currentType);
-         obj = dmz.object.create(currentType);
-         dmz.object.position(obj, null, pos);
-         dmz.object.activate(obj);
-         dmz.object.select(obj);
-         dmz.undo.stopRecord(undo);
-      }
-   }
-});
+//         undo = dmz.undo.startRecord("Create: " + currentType);
+//         obj = dmz.object.create(currentType);
+//         dmz.object.position(obj, null, pos);
+//         dmz.object.activate(obj);
+//         dmz.object.select(obj);
+//         dmz.undo.stopRecord(undo);
+//      }
+//   }
+//});
 

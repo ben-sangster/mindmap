@@ -17,6 +17,7 @@
    <filter>
       <object-type-set>
          <object-type name="CanvasLinkData"/>
+         <object-type name="Tool Link Node"/>
       </object-type-set>
       <attribute name="Object_Human_In_The_Loop">
          <mask name="flag"/>
@@ -30,8 +31,11 @@
       <attribute name="canvas_link">
          <mask name="link"/>
       </attribute>
+      <attribute name="mind_label">
+         <mask name="text"/>
+      </attribute>
+      <state name="Highlight"/>
       <!-- <state name="Selected"/> -->
-      <!-- <state name="Highlight"/> -->
    </filter>
 <!--   <db app="stance_1003_1004"/> -->
 <!--   <db app="stance_ben"/> -->

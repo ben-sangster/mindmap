@@ -1,9 +1,8 @@
 var dmz =
-      { consts: require("cssConst")
+      { mind: require("mindConst")
       , data: require("dmz/runtime/data")
       , defs: require("dmz/runtime/definitions")
       , mask: require("dmz/types/mask")
-      , mind: require("mindConst")
       , messaging: require("dmz/runtime/messaging")
       , object: require("dmz/components/object")
       , objectType: require("dmz/runtime/objectType")
@@ -48,13 +47,13 @@ dmz.messaging.subscribe(self, "First_Link_Object_Message", function (data) {
 
       if (_startNode && _firstHandle && _secondHandle) {
 
-         pos = dmz.object.position(_startNode);
+         pos = dmz.object.position(_startNode, dmz.mind.MindPosition);
 
          if (pos) {
 
-            dmz.object.position(_firstHandle, null, pos);
-            dmz.object.position(_secondHandle, null, pos);
-            _toolLink = dmz.object.link(dmz.consts.CanvasLink, _firstHandle, _secondHandle);
+            dmz.object.position(_firstHandle, dmz.mind.MindPosition, pos);
+            dmz.object.position(_secondHandle, dmz.mind.MindPosition, pos);
+            _toolLink = dmz.object.link(dmz.mind.CanvasLink, _firstHandle, _secondHandle);
          }
       }
    }
@@ -66,7 +65,7 @@ dmz.messaging.subscribe(self, "Update_Link_Position_Message", function (data) {
    if (data) {
 
       pos = data.vector("position", 0);
-      if (pos && _secondHandle) { dmz.object.position(_secondHandle, null, pos); }
+      if (pos && _secondHandle) { dmz.object.position(_secondHandle, dmz.mind.MindPosition, pos); }
    }
 });
 
@@ -97,15 +96,10 @@ dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
          else if (dmz.object.isObject(endNode) && _startNode) {
 
             undo = dmz.undo.startRecord("Create Network Link");
-            linkHandle = dmz.object.link(dmz.consts.CanvasLink, _startNode, endNode);
+            linkHandle = dmz.object.link(dmz.mind.CanvasLink, _startNode, endNode);
             if (linkHandle) {
 
                handle = dmz.object.create(dmz.mind.CanvasLinkData);
-               dmz.object.flag(handle, dmz.mind.ActiveHandle, true);
-               dmz.object.text(
-                  handle,
-                  dmz.mind.LabelHandle,
-                  dmz.mind.getLinkTags(_startNode, endNode).toString());
                dmz.object.activate(handle);
                dmz.object.linkAttributeObject(linkHandle, handle);
             }
@@ -120,9 +114,6 @@ dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
 });
 
 dmz.messaging.subscribe(self, "Failed_Link_Objects_Message", function () {
-
-   var state
-     ;
 
    if (_toolLink) {
 
@@ -142,21 +133,23 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
      , handle
      ;
 
-   if (superType && !superType.isOfType(dmz.mind.ToolLinkType) &&
-      subType && !subType.isOfType(dmz.mind.ToolLinkType)) {
+   if (superType && subType) {
 
-      if (!dmz.object.linkHandle(dmz.mind.ServerLink, superHandle, subHandle)) {
+      if (superType.isOfType(dmz.mind.ToolLinkType) ||
+         subType.isOfType(dmz.mind.ToolLinkType)) {
 
-         linkHandle = dmz.object.link(dmz.mind.ServerLink, superHandle, subHandle);
+      }
+      else {
+
+         self.log.error ("CanvasLink:", superHandle, subHandle);
+         linkHandle =
+            dmz.object.linkHandle(dmz.mind.ServerLink, superHandle, subHandle) ||
+            dmz.object.link(dmz.mind.ServerLink, superHandle, subHandle);
          if (linkHandle) {
 
-            handle = dmz.object.create(dmz.mind.LinkData);
-            dmz.object.flag(handle, dmz.mind.ActiveHandle, true);
-            dmz.object.text(
-               handle,
-               dmz.mind.LabelHandle,
-               dmz.mind.getLinkTags(superHandle, subHandle).toString());
-            dmz.object.activate(handle);
+            handle = dmz.object.linkAttributeObject(linkHandle) || dmz.object.create(dmz.mind.LinkData);
+            dmz.object.flag(handle, dmz.mind.MindActive, true);
+            if (!dmz.object.isActivated(handle)) { dmz.object.activate(handle); }
             dmz.object.linkAttributeObject(linkHandle, handle);
          }
       }
@@ -170,19 +163,16 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
      , linkHandle
      ;
 
-   if (dmz.object.flag(linkObjHandle, dmz.mind.ActiveHandle) &&
-      !dmz.object.linkHandle(dmz.mind.CanvasLink, superHandle, subHandle)) {
+   if (dmz.object.flag(linkObjHandle, dmz.mind.MindActive)) {
 
-      linkHandle = dmz.object.link(dmz.mind.CanvasLink, superHandle, subHandle);
+      linkHandle =
+         dmz.object.linkHandle(dmz.mind.CanvasLink, superHandle, subHandle) ||
+         dmz.object.link(dmz.mind.CanvasLink, superHandle, subHandle);
+
       if (linkHandle) {
 
-         handle = dmz.object.create(dmz.mind.CanvasLinkData);
-         dmz.object.flag(handle, dmz.mind.ActiveHandle, true);
-         dmz.object.text(
-            handle,
-            dmz.mind.LabelHandle,
-            dmz.mind.getLinkTags(superHandle, subHandle).toString());
-         dmz.object.activate(handle);
+         handle = dmz.object.linkAttributeObject(linkHandle) || dmz.object.create(dmz.mind.CanvasLinkData);
+         if (!dmz.object.isActivated(handle)) { dmz.object.activate(handle); }
          dmz.object.linkAttributeObject(linkHandle, handle);
       }
    }
@@ -198,16 +188,37 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
    if (linkHandle) {
 
       handle = dmz.object.linkAttributeObject(linkHandle);
-      dmz.object.flag(handle, dmz.stance.ActiveHandle, false);
+      dmz.object.flag(handle, dmz.mind.MindActive, false);
    }
    if (linkObjHandle) { dmz.object.destroy(linkObjHandle); }
 });
 
-dmz.object.flag.observe(self, dmz.mind.ActiveHandle, function (handle, attr, value, prev) {
+dmz.object.linkAttributeObject.observe(self, dmz.mind.ServerLink,
+function (linkHandle, attrHandle, superHandle, subHandle, attrObjHandle, prevAttrObjHandle) {
 
-   var links = dmz.object.attributeObjectLinks(handle) || []
+   var linkHandle
+     , handle
      ;
 
+   if (dmz.object.flag(attrObjHandle, dmz.mind.MindActive)) {
+
+      linkHandle =
+         dmz.object.linkHandle(dmz.mind.CanvasLink, superHandle, subHandle) ||
+         dmz.object.linkHandle(dmz.mind.CanvasLink, subHandle, superHandle) ||
+         dmz.object.link(dmz.mind.CanvasLink, superHandle, subHandle);
+
+      if (linkHandle) {
+
+         handle = dmz.object.linkAttributeObject(linkHandle) || dmz.object.create(dmz.mind.CanvasLinkData);
+         if (!dmz.object.isActivated(handle)) { dmz.object.activate(handle); }
+         dmz.object.linkAttributeObject(linkHandle, handle);
+      }
+   }
+});
+
+dmz.object.flag.observe(self, dmz.mind.MindActive, function (handle, attr, value, prev) {
+
+   var links = dmz.object.attributeObjectLinks(handle) || [];
    links.forEach(function (linkHandle) {
 
       var linkedObjects = dmz.object.linkedObjects(linkHandle)
@@ -215,13 +226,12 @@ dmz.object.flag.observe(self, dmz.mind.ActiveHandle, function (handle, attr, val
         ;
 
       if (linkedObjects.super && linkedObjects.sub &&
-         (linkedObjects.attribute === dmz.mind.ServerLink)) {
+         (linkedObjects.attribute == dmz.mind.ServerLink)) {
 
-         linkHandle = dmz.object.linkHandle(dmz.mind.CanvasLink, linkedObjects.super, linkedObjects.sub);
-         if (linkHandle && !value && prev) {
-
-            dmz.object.unlink(dmz.mind.CanvasLink, linkedObjects.super, linkedObjects.sub);
-         }
+         linkHandle =
+            dmz.object.linkHandle(dmz.mind.CanvasLink, linkedObjects.super, linkedObjects.sub) ||
+            dmz.object.linkHandle(dmz.mind.CanvasLink, linkedObjects.sub, linkedObjects.super);
+         if (linkHandle && !value && prev) { dmz.object.unlink(linkHandle); }
          else if (!linkHandle && value && (prev === false)) {
 
             dmz.object.link(dmz.mind.CanvasLink, linkedObjects.super, linkedObjects.sub);

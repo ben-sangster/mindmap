@@ -5,7 +5,7 @@
    <search>
       <path value="./assets/"/>
    </search>
-   <resource name="firewall" file="Firewall.svg"/>
+<!--   <resource name="firewall" file="Firewall.svg"/>
    <resource name="firewall highlight" file="FirewallInvert.svg"/>
    <resource name="firewall select" file="FirewallSelect.svg"/>
    <resource name="internet" file="Internet.svg"/>
@@ -36,7 +36,18 @@
    <resource name="workstation highlight" file="WorkstationInvert.svg"/>
    <resource name="workstation select" file="WorkstationSelect.svg"/>
    <resource name="not ok" file="X.svg"/>
-   <resource name="infected badge" file="Infected.svg"/>
+   <resource name="infected badge" file="Infected.svg"/>-->
+   <resource name="forum-all"  file="forum_All.svg"/>
+   <resource name="vote-all"  file="vote_All.svg"/>
+   <resource name="video-all"  file="video_All.svg"/>
+   <resource name="newspaper-all"  file="newspaper_All.svg"/>
+   <resource name="memo-all"  file="memo_All.svg"/>
+   <resource name="pdf-all"  file="pdf_All.svg"/>
+   <resource name="lobbyist-all"  file="lobbyist_All.svg"/>
+   <resource name="qa-all" file="QA_All.svg"/>
+   <resource name="voteYes" file="voteYes.svg"/>
+   <resource name="voteNo" file="voteNo.svg"/>
+   <resource name="voteDenied" file="voteDenied.svg"/>
 </resource-map>
 </runtime>
 </dmz>

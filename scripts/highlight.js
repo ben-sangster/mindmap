@@ -4,9 +4,8 @@ var dmz =
       , object: require("dmz/components/object")
       , message: require("dmz/runtime/messaging")
       , mask: require("dmz/types/mask")
+      , mind: require("mindConst")
       }
-   // Constants
-   , HighlightState = dmz.defs.lookupState("Highlight")
    // variables
    , _object = 0
    ;
@@ -21,7 +20,6 @@ dmz.message.subscribe (self, "Mouse_Move_Message", function (data) {
    if (dmz.data.isTypeOf(data)) {
 
       handle = data.handle("object", 0);
-
       if (handle && dmz.object.isLink(handle)) {
 
          handle = dmz.object.linkAttributeObject(handle);
@@ -29,13 +27,9 @@ dmz.message.subscribe (self, "Mouse_Move_Message", function (data) {
 
       if (handle && dmz.object.isObject(handle)) {
 
-         state = dmz.object.state(handle);
-
-         if (!state) { state = dmz.mask.create(); }
-
-         state = state.or(HighlightState);
-
-         dmz.object.state(handle, null, state);
+         state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create();
+         state = state.or(dmz.mind.HighlightState);
+         dmz.object.state(handle, dmz.mind.MindState, state);
       }
 
       if (handle !== _object) {
@@ -43,17 +37,14 @@ dmz.message.subscribe (self, "Mouse_Move_Message", function (data) {
          if (_object) {
 
             prev = _object;
-
             _object = handle;
-
             if (dmz.object.isObject(prev)) {
 
-               state = dmz.object.state(prev);
+               state = dmz.object.state(prev, dmz.mind.MindState);
+               if (state && state.contains(dmz.mind.HighlightState)) {
 
-               if (state && state.contains(HighlightState)) {
-
-                  state = state.unset(HighlightState);
-                  dmz.object.state(prev, null, state);
+                  state = state.unset(dmz.mind.HighlightState);
+                  dmz.object.state(prev, dmz.mind.MindState, state);
                }
             }
          }
@@ -62,20 +53,3 @@ dmz.message.subscribe (self, "Mouse_Move_Message", function (data) {
    }
 });
 
-dmz.object.state.observe(self, function (handle, attribute, value) {
-
-   var state
-     ;
-
-   if (value.contains(HighlightState) && (_object !== handle)) {
-
-      state = dmz.object.state(handle);
-
-      if (state && state.contains(HighlightState)) {
-
-         state = state.unset(HighlightState);
-
-         dmz.object.state(handle, null, state);
-      }
-   }
-});

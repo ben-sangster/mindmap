@@ -11,46 +11,34 @@ var dmz =
    , _exports = {}
 
    , ObjectTypes =
-        { StanceDataType: dmz.objectType.lookup("stance")
-        , MindDataType: dmz.objectType.lookup("MindData")
-        , VoteDataType: dmz.objectType.lookup("VoteData")
-        , QADataType: dmz.objectType.lookup("QAData")
-        , QuestionDataType: dmz.objectType.lookup("QuestionData")
-        , AnswerDataType: dmz.objectType.lookup("AnswerData")
-        , ForumDataType: dmz.objectType.lookup("ForumData")
-        , PostDataType: dmz.objectType.lookup("PostData")
-        , CommentDataType: dmz.objectType.lookup("CommentData")
-        , MediaDataType: dmz.objectType.lookup("MediaData")
-        , PDFDataType: dmz.objectType.lookup("PDFData")
-        , VideoDataType: dmz.objectType.lookup("VideoData")
-        , NewsDataType: dmz.objectType.lookup("NewsData")
-        , MemoDataType: dmz.objectType.lookup("MemoData")
-        , LobbyistData: dmz.objectType.lookup("LobbyistData")
-        , LinkData: dmz.objectType.lookup("LinkData")
-        , CanvasLinkData: data.objectType.lookup("CanvasLinkData")
+        { LinkData: dmz.objectType.lookup("LinkData")
+        , CanvasLinkData: dmz.objectType.lookup("CanvasLinkData")
         , ToolLinkType: dmz.objectType.lookup("Tool Link Node")
         }
 
    , Handles =
-        { Position: dmz.defs.createNamedHandle("position") // Position on canvas
-        , ActiveHandle: dmz.defs.createNamedHandle("Active") // Objects on canvas
-        , LabelHandle: dmz.defs.createNamedHandle("label") // Label on canvas
+        { MindPosition: dmz.defs.createNamedHandle("mind_position") // Position on canvas
+        , MindServerPosition: dmz.defs.createNamedHandle("mind_server_position")
+        , MindActive: dmz.defs.createNamedHandle("mind_active")
+        , MindLabel: dmz.defs.createNamedHandle("mind_label") // Label on canvas
+        , MindState: dmz.defs.createNamedHandle("mind_state")
         }
 
    , AttrHandles =
-        { StanceLink: dmz.defs.createNamedHandle("stance_link") // Link to Stance objects
-        , CanvasLink: dmz.defs.createNamedHandle("canvas_link") // Links visible on canvas, not on server or archive
+        { CanvasLink: dmz.defs.createNamedHandle("canvas_link") // Links visible on canvas, not on server or archive
         , ServerLink: dmz.defs.createNamedHandle("server_link") // Links visible on server / archive
         }
    , States =
-        { GroupColorAllState: dmz.defs.createNamedHandle("Group_Color_All")
-        , GroupColor0State: dmz.defs.createNamedHandle("Group_Color_0")
-        , GroupColor1State: dmz.defs.createNamedHandle("Group_Color_1")
-        , GroupColor2State: dmz.defs.createNamedHandle("Group_Color_2")
-        , GroupColor3State: dmz.defs.createNamedHandle("Group_Color_3")
-        , GroupColor4State: dmz.defs.createNamedHandle("Group_Color_4")
-        , GroupColor5State: dmz.defs.createNamedHandle("Group_Color_5")
-        , GroupColor6State: dmz.defs.createNamedHandle("Group_Color_6")
+        { GroupColorAllState: dmz.defs.lookupState("Group_Color_All")
+        , GroupColor0State: dmz.defs.lookupState("Group_Color_0")
+        , GroupColor1State: dmz.defs.lookupState("Group_Color_1")
+        , GroupColor2State: dmz.defs.lookupState("Group_Color_2")
+        , GroupColor3State: dmz.defs.lookupState("Group_Color_3")
+        , GroupColor4State: dmz.defs.lookupState("Group_Color_4")
+        , GroupColor5State: dmz.defs.lookupState("Group_Color_5")
+        , GroupColor6State: dmz.defs.lookupState("Group_Color_6")
+        , ShowIconState: dmz.defs.lookupState("Show_Icon")
+        , HighlightState: dmz.defs.lookupState("Highlight")
         }
 
    , Functions =
@@ -62,18 +50,13 @@ var dmz =
    , getDataTags
    , getLinkTags
    , getStanceObject
+   , getGroupHandles
    , getGroupID
    ;
 
 getDataTags = function (handle) {
 
-   var type = dmz.object.type(handle)
-     , stanceHandle
-     ;
-
-   if (type && type.isOfType(ObjectTypes.StanceDataType)) { stanceHandle = handle; }
-   else if (type && type.isOfType(MindDataType)) { stanceHandle = getStanceObject(handle); }
-   return dmz.stance.getTags(dmz.object.data(stanceHandle, dmz.stance.TagHandle));
+   return dmz.stance.getTags(dmz.object.data(handle, dmz.stance.TagHandle));
 };
 
 getLinkTags = function (superHandle, subHandle) {
@@ -86,67 +69,71 @@ getLinkTags = function (superHandle, subHandle) {
    return result.length ? result : ["-"];
 };
 
-getStanceObject = function (handle) {
+getGroupHandles = function (handle) {
 
-   return (dmz.object.subLinks(handle, AttrHandles.StanceLink) || [])[0];
-};
-
-getGroupID = function (handle) {
-
-   var stanceHandle = getStanceObject(handle)
-     , groupHandle = 0
-     , type = dmz.object.type(stanceHandle)
-     , result = false
+   var type = dmz.object.type(handle)
+     , result
      ;
 
    if (type) {
 
       if (type.isOfType(dmz.stance.VoteType)) {
 
-         groupHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.VoteGroupHandle) || [])[0];
+         result = dmz.object.subLinks(handle, dmz.stance.VoteGroupHandle);
       }
       else if (type.isOfType(dmz.stance.QuestionType)) {
 
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.QuestionLinkHandle) || [])[0];
-         groupHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.AdvisorGroupHandle) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.QuestionLinkHandle) || [])[0];
+         result = dmz.object.subLinks(handle, dmz.stance.AdvisorGroupHandle);
       }
       else if (type.isOfType(dmz.stance.AnswerType)) {
 
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.QuestionLinkHandle) || [])[0];
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.QuestionLinkHandle) || [])[0];
-         groupHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.AdvisorGroupHandle) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.QuestionLinkHandle) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.QuestionLinkHandle) || [])[0];
+         result = dmz.object.subLinks(handle, dmz.stance.AdvisorGroupHandle);
       }
       else if (type.isOfType(dmz.stance.PostType)) {
 
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.ParentHandle) || [])[0];
-         groupHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.ForumLink) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.ParentHandle) || [])[0];
+         result = dmz.object.subLinks(handle, dmz.stance.ForumLink);
       }
       else if (type.isOfType(dmz.stance.CommentType)) {
 
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.ParentHandle) || [])[0];
-         stanceHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.ParentHandle) || [])[0];
-         groupHandle = (dmz.object.subLinks(stanceHandle, dmz.stance.ForumLink) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.ParentHandle) || [])[0];
+         handle = (dmz.object.subLinks(handle, dmz.stance.ParentHandle) || [])[0];
+         result = dmz.object.subLinks(handle, dmz.stance.ForumLink);
       }
       else if (type.isOfType(dmz.stance.MemoType) || type.isOfType(dmz.stance.NewspaperType) ||
-              type.isOfType(dmz.stance.VideoType) || type.isOfType(dmz.stance.PDFItem)) {
+              type.isOfType(dmz.stance.VideoType) || type.isOfType(dmz.stance.PdfItemType) ||
+              type.isOfType(dmz.stance.LobbyistType)) {
 
-         stanceHandle = dmz.object.subLinks(stance, dmz.stance.MediaHandle) || [];
-         stanceHandle = stanceHandle.filter(function (handle) {
+         handle = dmz.object.subLinks(handle, dmz.stance.MediaHandle) || [];
+         result = handle.filter(function (handle) {
 
             return dmz.object.type(handle).isOfType(dmz.stance.GroupType);
          });
-         if (stanceHandle.length > 1) { result = -1; }
-         else { groupHandle = stanceHandle[0]; }
       }
-      if (groupHandle) { result = dmz.object.scalar(groupHandle, dmz.stance.ID); }
    }
    return result;
 }
 
+getGroupID = function (handle) {
+
+   var groups = getGroupHandles(handle)
+     , result = 0
+     ;
+
+   if (groups && groups.length) {
+
+      result = (groups.length > 1) ? -1 : dmz.object.scalar(groups[0], dmz.stance.ID);
+   }
+   return result;
+};
 
 Functions.getDataTags = getDataTags;
 Functions.getLinkTags = getLinkTags;
 Functions.getStanceObject = getStanceObject;
+Functions.getGroupHandles = getGroupHandles;
 Functions.getGroupID = getGroupID;
 
 
@@ -161,5 +148,20 @@ Functions.getGroupID = getGroupID;
    Object.keys(Functions).forEach(function (fncName) {
 
       dmz.util.defineConst(exports, fncName, Functions[fncName]);
+   });
+
+   Object.keys(Handles).forEach(function (handle) {
+
+      dmz.util.defineConst(exports, handle, Handles[handle]);
+   });
+
+   Object.keys(AttrHandles).forEach(function (attrHandle) {
+
+      dmz.util.defineConst(exports, attrHandle, AttrHandles[attrHandle]);
+   });
+
+   Object.keys(States).forEach(function (state) {
+
+      dmz.util.defineConst(exports, state, States[state]);
    });
 }());

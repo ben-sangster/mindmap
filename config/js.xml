@@ -9,19 +9,23 @@
    <plugin name="dmzJsExtV8Archive" scope="javascript"/>
    <plugin name="dmzJsExtV8Object" scope="javascript"/>
    <plugin name="dmzJsExtV8Module" scope="javascript"/>
+   <plugin name="dmzJsExtV8Resources" scope="javascript"/>
 </plugin-list>
 <javascript>
    <path value="./scripts"/>
    <path value="./ui"/>
    <path value="../js/scripts"/>
-   <instance name="objectInit"/>
+<!--   <instance name="objectInit"/>
    <instance name="objectInspector"/>
    <instance name="editMenu"/>
-   <instance name="create"/>
-   <instance name="move"/>
+   <instance name="create"/>-->
    <instance name="link"/>
-   <instance name="delete"/>
    <instance name="highlight"/>
+   <instance name="linkObj"/>
+   <instance name="delete"/>
+   <instance name="label"/>
+   <instance name="move"/>
+   <instance name="dataDock"/>
 </javascript>
 </dmz>
 
