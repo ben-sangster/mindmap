@@ -31,6 +31,7 @@
          <mask name="text"/>
       </attribute>
       <state name="Highlight"/>
+      <state name="Selected"/>
 <!--      <state name="Group_Color_All"/>
       <state name="Group_Color_0"/>
       <state name="Group_Color_1"/>

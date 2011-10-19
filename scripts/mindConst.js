@@ -14,6 +14,8 @@ var dmz =
         { LinkData: dmz.objectType.lookup("LinkData")
         , CanvasLinkData: dmz.objectType.lookup("CanvasLinkData")
         , ToolLinkType: dmz.objectType.lookup("Tool Link Node")
+        , ForumType: dmz.objectType.lookup("forum_entry")
+        , QAType: dmz.objectType.lookup("qadata")
         }
 
    , Handles =
@@ -39,6 +41,7 @@ var dmz =
         , GroupColor6State: dmz.defs.lookupState("Group_Color_6")
         , ShowIconState: dmz.defs.lookupState("Show_Icon")
         , HighlightState: dmz.defs.lookupState("Highlight")
+        , SelectedState: dmz.defs.lookupState("Selected")
         , VoteYesState: dmz.defs.lookupState("Vote_Passed")
         , VoteNoState: dmz.defs.lookupState("Vote_Failed")
         , VoteDeniedState: dmz.defs.lookupState("Vote_Denied")

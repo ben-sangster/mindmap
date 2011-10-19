@@ -35,6 +35,7 @@
          <mask name="text"/>
       </attribute>
       <state name="Highlight"/>
+      <state name="Selected"/>
 <!--      <state name="Group_Color_All"/>
       <state name="Group_Color_0"/>
       <state name="Group_Color_1"/>
@@ -43,7 +44,6 @@
       <state name="Group_Color_4"/>
       <state name="Group_Color_5"/>
       <state name="Group_Color_6"/>-->
-      <!-- <state name="Selected"/> -->
    </filter>
 <!--   <db app="stance_1003_1004"/> -->
 <!--   <db app="stance_ben"/> -->

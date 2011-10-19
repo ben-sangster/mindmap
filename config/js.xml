@@ -26,6 +26,11 @@
    <instance name="label"/>
    <instance name="move"/>
    <instance name="dataDock"/>
+   <instance name="objectInspector"/>
+   <instance name="forumInspector"/>
+   <instance name="lobbyistInspector"/>
+   <instance name="qaInspector"/>
+   <instance name="voteInspector"/>
 </javascript>
 </dmz>
 

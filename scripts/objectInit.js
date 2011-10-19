@@ -1,9 +1,7 @@
 var dmz =
-       { cssConst: require("cssConst")
-       , object: require("dmz/components/object")
+       { object: require("dmz/components/object")
        , module: require("dmz/runtime/module")
        }
-  // Constants
   // Functions
   , _findInit
   // Variables
@@ -13,12 +11,9 @@ var dmz =
   , _count = 1
   ;
 
-
 _findInit = function (type) {
 
-   var result
-     ;
-
+   var result;
    while (type && !result) {
 
       result = _table[type.name()];
@@ -31,7 +26,6 @@ _findInit = function (type) {
 dmz.object.create.observe(self, function (handle, type) {
 
    var init = _findInit(type);
-
    if (init && init.func) { init.func(handle, type); }
 });
 

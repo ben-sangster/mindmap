@@ -1,14 +1,14 @@
 var dmz =
-       { cssConst: require("cssConst")
-       , object: require("dmz/components/object")
-       , uiConst: require("dmz/ui/consts")
-       , uiLoader: require("dmz/ui/uiLoader")
-       , main: require("dmz/ui/mainWindow")
-       , dock: require("dmz/ui/dockWidget")
-       , mask: require("dmz/types/mask")
-       , layout: require("dmz/ui/layout")
-       , module: require("dmz/runtime/module")
-       }
+   { ui:
+      { consts: require('dmz/ui/consts')
+      , loader: require('dmz/ui/uiLoader')
+      , mainWindow: require('dmz/ui/mainWindow')
+      }
+   , mind: require("mindConst")
+   , mask: require("dmz/types/mask")
+   , object: require("dmz/components/object")
+   , module: require("dmz/runtime/module")
+   }
   // Constants
   , DockName = "Object Inspector"
   // Functions
@@ -18,20 +18,21 @@ var dmz =
   , _table = {}
   , _selfTable = {}
   , _selected
-  , _form = dmz.uiLoader.load("ObjectInspector")
-  , _dock = dmz.main.createDock
-    (DockName
-    , { area: dmz.uiConst.RightToolBarArea
-      , allowedAreas: [dmz.uiConst.NoToolBarArea]
-      , floating: true
-      , visible: true
-      }
-    , _form
-    )
+  , _form = dmz.ui.loader.load("ObjectInspector")
+  , _dock =
+       dmz.ui.mainWindow.createDock
+          (DockName
+          , { area: dmz.ui.consts.RightToolBarArea
+            , allowedAreas: [dmz.ui.consts.NoToolBarArea]
+            , floating: true
+            , visible: true
+            }
+          , _form
+          )
   , _stack = _form.lookup("stack")
   ;
 
-self.shutdown = function () { dmz.main.removeDock(DockName); };
+self.shutdown = function () { dmz.ui.mainWindow.removeDock(DockName); };
 
 _findInspector = function (handle) {
 
@@ -56,12 +57,12 @@ dmz.object.flag.observe(self, dmz.object.SelectAttribute, function (handle, attr
 
    if (!value && (handle === _selected)) {
 
-      state = dmz.object.state(handle);
+      state = dmz.object.state(handle, dmz.mind.MindState);
 
       if (state) {
 
-         state = state.unset(dmz.cssConst.Select);
-         dmz.object.state(handle, null, state);
+         state = state.unset(dmz.mind.SelectedState);
+         dmz.object.state(handle, dmz.mind.MindState, state);
       }
 
       _stack.currentIndex(0);
@@ -69,14 +70,11 @@ dmz.object.flag.observe(self, dmz.object.SelectAttribute, function (handle, attr
    }
    else if (value && (handle !== _selected)) {
 
-      state = dmz.object.state(handle);
-
-      if (!state) { state = dmz.mask.create(); }
-
+      state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create();
       if (state) {
 
-         state = state.or(dmz.cssConst.Select);
-         dmz.object.state(handle, null, state);
+         state = state.or(dmz.mind.SelectedState);
+         dmz.object.state(handle, dmz.mind.MindState, state);
       }
 
       inspector = _findInspector(handle);
