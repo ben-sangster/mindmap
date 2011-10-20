@@ -23,7 +23,8 @@
    <instance name="highlight"/>
    <instance name="linkObj"/>
    <instance name="delete"/>
-   <instance name="label"/>
+<!--   <instance name="label"/> -->
+   <instance name="zoomText"/>
    <instance name="move"/>
    <instance name="dataDock"/>
    <instance name="objectInspector"/>

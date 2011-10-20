@@ -30,12 +30,12 @@
 </main-window>
 <canvas>
    <canvas opengl="false" antialiasing="true" textantialiasing="true">
-      <zoom min="0.5" max="2.0" default="0.5" step="0.5"/>
+      <zoom min="0.2" max="1.0" default="0.3" step="0.5"/>
    </canvas>
    <scene>
       <background grid="true"/>
-      <min x="-1000" y="-1000"/>
-      <max x="1000" y="1000"/>
+      <min x="-10000" y="-10000"/>
+      <max x="10000" y="10000"/>
    </scene>
    <scrollbars value="false"/>
 </canvas>
@@ -170,7 +170,7 @@
    <pen-width value="4"/>
 </canvas-link>
 <canvas-zoom>
-   <zoom min="0.2" max="2.0" default="0.5"/>
+   <zoom min="0.2" max="1.0" default="0.3"/>
 </canvas-zoom>
 <icon-pallet>
    <use-session value="false"/>
@@ -182,4 +182,9 @@
       <canvas name="canvas"/>
    </module>
 </canvas-pick>
+<zoomText>
+   <data zoom="0.3" length="20"/>
+   <data zoom="0.5" length="70"/>
+   <data zoom="0.75" length="140"/>
+</zoomText>
 </dmz>
