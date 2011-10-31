@@ -18,7 +18,7 @@ var dmz =
       , graph: require("dmz/ui/graph")
       }
    }
-   , DateJs = require("datejs/time")
+   , DateJs = require("datejs/date")
    // CONSTS
    , AVATAR_WIDTH = 50
    , AVATAR_HEIGHT = 50
@@ -71,6 +71,8 @@ _updateState = function (handle) {
      , total = _numberOfNonAdminUsers(dmz.stance.getUserGroupHandle(dmz.stance.getAuthorHandle(handle)))
      ;
 
+   _updatePostedAt(handle);
+   _updateEndTime(handle);
    if (state === dmz.stance.VOTE_DENIED) {
 
       _form.styleSheet("* { background-color: rgb(70, 70, 70); color: white; }");
@@ -78,6 +80,7 @@ _updateState = function (handle) {
       _yesVotes.text("");
       _noVotes.text("");
       _undecVotes.text("");
+      _endTime.text("");
    }
    else if (state === dmz.stance.VOTE_YES) {
 
@@ -152,22 +155,31 @@ _updateTags = function (handle) {
 
 _updatePostedAt = function (handle) {
 
-   var timestamp;
+   var timestamp
+     , attr
+     ;
    if (handle === _object) {
 
-      timestamp = dmz.object.timeStamp(handle, dmz.stance.CreatedAtServerTimeHandle) || 0;
+      if (dmz.object.scalar(handle, dmz.stance.VoteState) === dmz.stance.VOTE_DENIED) {
+
+         timestamp = dmz.object.timeStamp(handle, dmz.stance.PostedAtServerTimeHandle) || 0;
+      }
+      else {
+
+         timestamp = dmz.object.timeStamp(handle, dmz.stance.CreatedAtServerTimeHandle) || 0;
+      }
+
       _startTime.text(dmz.util.timeStampToDate(timestamp).toString(dmz.stance.TIME_FORMAT));
    }
 };
-
 
 _updateEndTime = function (handle) {
 
    var timestamp;
    if (handle === _object) {
 
-      timestamp = dmz.object.timeStamp(handle, dmz.stance.EndTimeHandle) || 0;
-      if (timeStamp) {
+      timestamp = dmz.object.timeStamp(handle, dmz.stance.EndedAtServerTimeHandle) || 0;
+      if (timestamp) {
 
          _endTime.text(dmz.util.timeStampToDate(timestamp).toString(dmz.stance.TIME_FORMAT));
       }
@@ -185,6 +197,8 @@ dmz.object.scalar.observe(self, dmz.stance.VoteState, _updateState);
 dmz.object.text.observe(self, dmz.stance.CommentHandle, _updateResponse);
 dmz.object.text.observe(self, dmz.stance.TextHandle, _updateMessage);
 dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTimeHandle, _updatePostedAt);
+dmz.object.timeStamp.observe(self, dmz.stance.PostedAtServerTimeHandle, _updatePostedAt);
+dmz.object.timeStamp.observe(self, dmz.stance.EndedAtServerTimeHandle, _updateEndTime);
 dmz.object.data.observe(self, dmz.stance.TagHandle, _updateTags);
 dmz.object.link.observe(self, dmz.stance.CreatedByHandle,
 function (linkObjHandle, attrHandle, superHandle, subHandle) {

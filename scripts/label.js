@@ -3,6 +3,8 @@ var dmz =
    , mind: require("mindConst")
    , object: require("dmz/components/object")
    }
+   // Variables
+   , Votes = {}
    ;
 
 

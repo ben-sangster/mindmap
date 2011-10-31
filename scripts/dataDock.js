@@ -66,6 +66,8 @@ var dmz =
    , TypeList = {}
    , SelectedWidget = false
    , OrigPalette = false
+   , ArrangeMessage = dmz.message.create("Vote_Auto_Place_Message")
+   , LinkMessage = dmz.message.create("Auto_Link_Tags_Message")
 
    // Functions
    , getDataItem
@@ -77,6 +79,9 @@ var dmz =
    , remove
    , add
    ;
+
+DataWindow.observe(self, "arrangeVotesButton", "clicked", function () { ArrangeMessage.send(); });
+DataWindow.observe(self, "linkButton", "clicked", function () { LinkMessage.send(); });
 
 (function () {
 
@@ -384,3 +389,4 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
       SelectedWidget = false;
    }
 });
+

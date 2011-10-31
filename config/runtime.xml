@@ -8,6 +8,8 @@
    <state name="Show_Icon"/>
    <state name="Highlight"/>
    <state name="Selected"/>
+   <state name="Flow_Forward"/>
+   <state name="Flow_Reverse"/>
 <!-- Group States -->
    <state name="Group_Color_All"/>
    <state name="Group_Color_0"/>
@@ -111,23 +113,6 @@
    </object-type>
    <object-type name="post" parent="forum_entry"/>
    <object-type name="comment" parent="forum_entry"/>
-   <object-type name="decision" parent="stance"/>
-   <object-type name="vote" parent="stance">
-      <icon resource="vote-all"/>
-      <canvas-object/>
-      <canvas-object-basic>
-         <template name="icon">
-            <var name="group-all" value="vote-all"/>
-            <var name="group-0" value="vote-0"/>
-            <var name="group-1" value="vote-1"/>
-            <var name="group-2" value="vote-2"/>
-            <var name="group-3" value="vote-3"/>
-            <var name="group-4" value="vote-4"/>
-            <var name="group-5" value="vote-5"/>
-            <var name="group-6" value="vote-6"/>
-         </template>
-      </canvas-object-basic>
-   </object-type>
    <object-type name="media" parent="stance"/>
    <object-type name="media-video" parent="media">
       <icon resource="video-all"/>
@@ -193,7 +178,7 @@
          </template>
       </canvas-object-basic>
    </object-type>
-   <object-type name="lobbyist" parent="media">
+   <object-type name="lobbyist" parent="stance">
       <icon resource="lobbyist-all"/>
       <canvas-object/>
       <canvas-object-basic>
@@ -227,6 +212,135 @@
    </object-type>
    <object-type name="question" parent="qadata"/>
    <object-type name="answer" parent="qadata"/>
+   <object-type name="vote" parent="stance">
+      <icon resource="vote-all"/>
+      <canvas-object/>
+      <canvas-object-basic>
+         <items>
+            <group name="base node">
+               <image name="group-all" resource="vote-all">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-0" resource="vote-0">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-1" resource="vote-1">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-2" resource="vote-2">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-3" resource="vote-3">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-4" resource="vote-4">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-5" resource="vote-5">
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="group-6" resource="vote-6">
+                  <scale x="2" y="2"/>
+               </image>
+            </group>
+            <group name="text">
+               <text name="name">
+                  <textColor>
+                     <string value="white"/>
+                     <alpha value="0.75"/>
+                  </textColor>
+                  <outlineColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </outlineColor>
+                  <backgroundColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </backgroundColor>
+                  <translate name="group-all" x="0" y="150"/>
+                  <alignment value="center"/>
+                  <scale x="2.8" y="2.8"/>
+               </text>
+               <text name="name-highlight">
+                  <textColor>
+                     <string value="yellow"/>
+                     <alpha value="0.75"/>
+                  </textColor>
+                  <outlineColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </outlineColor>
+                  <backgroundColor>
+                     <string value="black"/>
+                     <alpha value="0.75"/>
+                  </backgroundColor>
+                  <translate name="group-all" x="0" y="150"/>
+                  <alignment value="center"/>
+                  <scale x="2.8" y="2.8"/>
+               </text>
+            </group>
+            <group name="vote-overlay">
+               <image name="voteYes" resource="voteYes">
+                  <translate name="group-all" x="-100" y="-75"/>
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="voteNo" resource="voteNo">
+                  <translate name="group-all" x="-100" y="-75"/>
+                  <scale x="2" y="2"/>
+               </image>
+               <image name="voteDenied" resource="voteDenied">
+                  <translate name="group-all" x="-100" y="-75"/>
+                  <scale x="2" y="2"/>
+               </image>
+            </group>
+         </items>
+         <text>
+            <item name="name" attribute="mind_label"/>
+            <item name="name-highlight" attribute="mind_label"/>
+         </text>
+         <switch>
+            <state name="Show_Icon" group="text">
+               <item name="name"/>
+            </state>
+            <state name="Highlight" group="text">
+               <item name="name-highlight"/>
+            </state>
+            <state name="Vote_Denied | Show_Icon" group="vote-overlay">
+               <item name="voteDenied"/>
+            </state>
+            <state name="Vote_Passed | Show_Icon" group="vote-overlay">
+               <item name="voteYes"/>
+            </state>
+            <state name="Vote_Failed | Show_Icon" group="vote-overlay">
+               <item name="voteNo"/>
+            </state>
+            <state name="Group_Color_All | Show_Icon" group="base node">
+               <item name="group-all"/>
+            </state>
+            <state name="Group_Color_0 | Show_Icon" group="base node">
+               <item name="group-0"/>
+            </state>
+            <state name="Group_Color_1 | Show_Icon" group="base node">
+               <item name="group-1"/>
+            </state>
+            <state name="Group_Color_2 | Show_Icon" group="base node">
+               <item name="group-2"/>
+            </state>
+            <state name="Group_Color_3 | Show_Icon" group="base node">
+               <item name="group-3"/>
+            </state>
+            <state name="Group_Color_4 | Show_Icon" group="base node">
+               <item name="group-4"/>
+            </state>
+            <state name="Group_Color_5 | Show_Icon" group="base node">
+               <item name="group-5"/>
+            </state>
+            <state name="Group_Color_6 | Show_Icon" group="base node">
+               <item name="group-6"/>
+            </state>
+         </switch>
+      </canvas-object-basic>
+   </object-type>
    <!-- STANCE States -->
    <state name="Switch_Group"/>
    <state name="Change_Map"/>

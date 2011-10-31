@@ -30,14 +30,15 @@
 </main-window>
 <canvas>
    <canvas opengl="false" antialiasing="true" textantialiasing="true">
-      <zoom min="0.2" max="1.0" default="0.3" step="0.5"/>
+      <zoom min="0.2" max="0.52" default="0.3" step="0.2"/>
    </canvas>
    <scene>
       <background grid="true"/>
-      <min x="-10000" y="-10000"/>
-      <max x="10000" y="10000"/>
+      <min x="-1000" y="0"/>
+      <max x="1000" y="40000"/>
    </scene>
-   <scrollbars value="false"/>
+   <scrollbars value="true"/>
+   <setTop value="true"/>
 </canvas>
 <drop-event>
    <message name="Drop_Create_Message"/>
@@ -80,7 +81,7 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="25"/>
+                  <translate name="group-all" x="0" y="70"/>
                   <alignment value="center"/>
                   <scale x="1.5" y="1.5"/>
                </text>
@@ -97,21 +98,10 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="25"/>
+                  <translate name="group-all" x="0" y="70"/>
                   <alignment value="center"/>
                   <scale x="1.5" y="1.5"/>
                </text>
-            </group>
-            <group name="vote-overlay">
-               <image name="voteYes" resource="voteYes">
-                  <translate name="group-all" x="-1" y="0"/>
-               </image>
-               <image name="voteNo" resource="voteNo">
-                  <translate name="group-all" x="-1" y="0"/>
-               </image>
-               <image name="voteDenied" resource="voteDenied">
-                  <translate name="group-all" x="-1" y="0"/>
-               </image>
             </group>
          </items>
          <text>
@@ -124,15 +114,6 @@
             </state>
             <state name="Highlight" group="text">
                <item name="name-highlight"/>
-            </state>
-            <state name="Vote_Denied | Show_Icon" group="vote-overlay">
-               <item name="voteDenied"/>
-            </state>
-            <state name="Vote_Passed | Show_Icon" group="vote-overlay">
-               <item name="voteYes"/>
-            </state>
-            <state name="Vote_Failed | Show_Icon" group="vote-overlay">
-               <item name="voteNo"/>
             </state>
             <state name="Group_Color_All | Show_Icon" group="base node">
                <item name="group-all"/>
@@ -167,10 +148,16 @@
       <position name="mind_position"/>
    </attribute>
    <link name="canvas_link"/>
-   <pen-width value="4"/>
+   <pen-width value="10"/>
+   <flow-attribute name="mind_state"/>
+   <forward-flow-state name="Flow_Forward"/>
+   <reverse-flow-state name="Flow_Reverse"/>
+   <arrow-multiplier value="3"/>
 </canvas-link>
 <canvas-zoom>
-   <zoom min="0.2" max="1.0" default="0.3"/>
+<!--   <zoom min="0.2" max="1.0" default="0.3"/>-->
+   <zoom min="0.2" max="0.52" default="0.3"/>
+   <hide value="true"/>
 </canvas-zoom>
 <icon-pallet>
    <use-session value="false"/>
@@ -183,8 +170,8 @@
    </module>
 </canvas-pick>
 <zoomText>
-   <data zoom="0.3" length="20"/>
-   <data zoom="0.5" length="70"/>
-   <data zoom="0.75" length="140"/>
+   <data zoom="0.33" length="20"/>
+   <data zoom="0.40" length="70"/>
+   <data zoom="0.51" length="140"/>
 </zoomText>
 </dmz>

@@ -16,6 +16,7 @@ var dmz =
         , ToolLinkType: dmz.objectType.lookup("Tool Link Node")
         , ForumType: dmz.objectType.lookup("forum_entry")
         , QAType: dmz.objectType.lookup("qadata")
+        , MediaType: dmz.objectType.lookup("media")
         }
 
    , Handles =
@@ -45,6 +46,8 @@ var dmz =
         , VoteYesState: dmz.defs.lookupState("Vote_Passed")
         , VoteNoState: dmz.defs.lookupState("Vote_Failed")
         , VoteDeniedState: dmz.defs.lookupState("Vote_Denied")
+        , FlowForwardState: dmz.defs.lookupState("Flow_Forward")
+        , FlowReverseState: dmz.defs.lookupState("Flow_Reverse")
         }
 
    , Functions =

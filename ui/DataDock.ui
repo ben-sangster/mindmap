@@ -68,6 +68,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="linkButton">
+       <property name="text">
+        <string>Auto Link</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="arrangeVotesButton">
+       <property name="text">
+        <string>Arrange Votes</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="updateButton">
        <property name="text">
         <string>Update Data</string>

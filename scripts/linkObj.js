@@ -1,11 +1,14 @@
 var dmz =
       { mind: require("mindConst")
+      , stance: require("stanceConst")
       , defs: require("dmz/runtime/definitions")
       , object: require("dmz/components/object")
+      , mask: require("dmz/types/mask")
       }
    // Variables
    , objectList = {}
    , updateLinkObjPosition
+   , updateLinkFlow
    ;
 
 updateLinkObjPosition = function (handle) {
@@ -27,6 +30,31 @@ updateLinkObjPosition = function (handle) {
             dmz.object.position(link.attr, dmz.mind.MindPosition, attrPos);
          }
       });
+   }
+};
+
+updateLinkFlow = function (superHandle, subHandle, attrObjHandle) {
+
+   var superTime
+     , subTime
+     , state
+     ;
+
+   superTime =
+      dmz.object.timeStamp(superHandle, dmz.stance.PostedAtServerTimeHandle) ||
+      dmz.object.timeStamp(superHandle, dmz.stance.CreatedAtServerTimeHandle);
+   subTime =
+      dmz.object.timeStamp(subHandle, dmz.stance.PostedAtServerTimeHandle) ||
+      dmz.object.timeStamp(subHandle, dmz.stance.CreatedAtServerTimeHandle);
+   if (superTime && subTime) {
+
+      state = dmz.object.state(attrObjHandle, dmz.mind.MindState) || dmz.mask.create();
+      state = state.unset(dmz.mind.FlowForwardState.or(dmz.mind.FlowReverseState));
+      self.log.warn (superHandle, subHandle, superTime, subTime, (superTime <= subTime) ? "Forward" : "Reverse");
+      dmz.object.state(
+         attrObjHandle,
+         dmz.mind.MindState,
+         state.or((superTime <= subTime) ? dmz.mind.FlowForwardState : dmz.mind.FlowReverseState));
    }
 };
 
@@ -57,6 +85,7 @@ function (linkHandle, attrHandle, superHandle, subHandle, attrObjHandle, prevAtt
       objectList[superHandle][linkHandle] = link;
       if (!objectList[subHandle]) { objectList[subHandle] = {}; }
       objectList[subHandle][linkHandle] = link;
+      updateLinkFlow(superHandle, subHandle, attrObjHandle);
       updateLinkObjPosition(superHandle);
    }
    else if (objectList[superHandle] && objectList[superHandle][linkHandle] &&
@@ -68,5 +97,21 @@ function (linkHandle, attrHandle, superHandle, subHandle, attrObjHandle, prevAtt
    if (prevAttrObjHandle && dmz.object.isObject(prevAttrObjHandle)) {
 
       dmz.object.destroy(prevAttrObjHandle);
+   }
+});
+
+dmz.object.timeStamp.observe(self, dmz.stance.PostedAtServerTime, function (handle, attr, value) {
+
+   if (objectList[handle]) {
+
+      updateLinkFlow(objectList[handle].superLink, objectList[handle].subLink, objectList[handle].attr);
+   }
+});
+
+dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTime, function (handle, attr, value) {
+
+   if (objectList[handle]) {
+
+      updateLinkFlow(objectList[handle].superLink, objectList[handle].subLink, objectList[handle].attr);
    }
 });
