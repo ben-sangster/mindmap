@@ -12,6 +12,7 @@
    <plugin name="dmzInputPluginMouseEventToMessage" unique="move-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="link-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="delete-event"/>
+   <plugin name="dmzInputPluginMouseEventToMessage" unique="tag-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="CreateObjectEvent"/>
 </plugin-list>
 <key-events>
@@ -108,6 +109,21 @@
          </action>
       </toolButton>
    </channel>
+   <channel name="tag-tool" message="Update_Tool_Name">
+      <attribute type="string" name="String">
+         <element value="Tag"/>
+      </attribute>
+      <toolButton autoRaise="True">
+         <button>
+            <iconSize width="32" height="32"/>
+         </button>
+         <action text="Tag" checkable="True" checked="True">
+            <icon>
+               <image file="assets/icon_tag.png"/>
+            </icon>
+         </action>
+      </toolButton>
+   </channel>
 </tool-name>
 <mouse-move-event>
    <input>
@@ -116,6 +132,7 @@
       <channel name="move-tool"/>
       <channel name="link-tool"/>
       <channel name="delete-tool"/>
+      <channel name="tag-tool"/>
    </input>
    <target name="highlight"/>
    <deactivate message="Object_Highlight_Deactivate_Message"/>
@@ -294,6 +311,20 @@
       </state>
    </converter>
 </edit-event>
+<tag-event>
+   <input>
+      <source name="canvas"/>
+      <channel name="tag-tool"/>
+   </input>
+   <target name="tag"/>
+   <converter start="first">
+      <state name="first" type="basic">
+         <condition button="1" action="released" result="object" message="TagMessage" next="first">
+            <attribute type="object" name="handle"/>
+         </condition>
+      </state>
+   </converter>
+</tag-event>
 <CreateObjectEvent>
    <input>
       <source name="canvas"/>
