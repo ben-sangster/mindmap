@@ -50,7 +50,6 @@ updateLinkFlow = function (superHandle, subHandle, attrObjHandle) {
 
       state = dmz.object.state(attrObjHandle, dmz.mind.MindState) || dmz.mask.create();
       state = state.unset(dmz.mind.FlowForwardState.or(dmz.mind.FlowReverseState));
-      self.log.warn (superHandle, subHandle, superTime, subTime, (superTime <= subTime) ? "Forward" : "Reverse");
       dmz.object.state(
          attrObjHandle,
          dmz.mind.MindState,

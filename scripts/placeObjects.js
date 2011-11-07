@@ -22,7 +22,7 @@ dmz.object.create.observe(self, function (handle, type) {
 
    if (type.isOfType(dmz.stance.VoteType)) {
 
-      voteList[handle] = { position: false, links: [], handle: handle };
+      voteList[handle] = { position: false, lastPos: false, links: [], handle: handle };
    }
 });
 
@@ -31,13 +31,22 @@ getVoteTime = function (voteHandle) {
    var attr
      , result
      ;
+
    if (voteList[voteHandle]) {
 
-      if (dmz.object.scalar(voteHandle, dmz.stance.VoteState) === dmz.stance.VOTE_DENIED) {
-
+      switch (dmz.object.scalar(voteHandle, dmz.stance.VoteState)) {
+      case dmz.stance.VOTE_DENIED:
+      case dmz.stance.VOTE_APPROVAL_PENDING:
          attr = dmz.stance.PostedAtServerTimeHandle;
+         break;
+      case dmz.stance.VOTE_ACTIVE:
+      case dmz.stance.VOTE_YES:
+      case dmz.stance.VOTE_NO:
+      case dmz.stance.VOTE_EXPIRED:
+         attr = dmz.stance.CreatedAtServerTimeHandle;
+         break;
       }
-      else { attr = dmz.stance.CreatedAtServerTimeHandle; }
+
       result = dmz.object.timeStamp(voteHandle, attr);
    }
    return result || 0;
@@ -62,20 +71,11 @@ addLink = function (voteHandle, objectHandle) {
          if (nextTime && (nextTime < currTime)) {
 
             idx = voteList[objData[0]].links.indexOf(objectHandle);
-            if (idx !== -1) {
-
-               voteList[objData[0]].links.splice(idx, 1);
-               updateVoteObjectPositions(objData[0]);
-            }
+            if (idx !== -1) { voteList[objData[0]].links.splice(idx, 1); }
             voteList[voteHandle].links.push(objectHandle);
-            updateVoteObjectPositions(voteHandle);
          }
       }
-      else {
-
-         voteList[voteHandle].links.push(objectHandle);
-         updateVoteObjectPositions(voteHandle);
-      }
+      else { voteList[voteHandle].links.push(objectHandle); }
 
       if (objectList[objectHandle].indexOf(voteHandle) === -1) {
 
@@ -119,7 +119,6 @@ removeLink = function (voteHandle, objectHandle) {
       if (idx !== -1) {
 
          item.links.splice(idx, 1);
-         updateVoteObjectPositions(voteHandle);
          idx = objectList[objectHandle].indexOf(voteHandle);
          if (idx !== -1) {
 
@@ -127,11 +126,7 @@ removeLink = function (voteHandle, objectHandle) {
             if ((idx === 0) && objectList[objectHandle].length) {
 
                item = voteList[objectList[objectHandle][0]];
-               if (item) {
-
-                  item.links.push(objectHandle);
-                  updateVoteObjectPositions(item.handle);
-               }
+               if (item) { item.links.push(objectHandle); }
             }
          }
       }
@@ -152,7 +147,7 @@ getPosition = function (ratio) {
    return dmz.vector.create(Math.cos(angle), 0, Math.sin(angle)).multiply(OBJECT_RADIUS);
 };
 
-updateVoteObjectPositions = function (voteHandle) {
+updateVoteObjectPositions = function (voteHandle, attr) {
 
    var data = voteList[voteHandle]
      , length
@@ -162,10 +157,17 @@ updateVoteObjectPositions = function (voteHandle) {
       length = (data.links.length > 1) ? (data.links.length - 1) : 1;
       data.links.forEach(function (objectHandle, index) {
 
-         dmz.object.position(
-            objectHandle,
-            dmz.mind.MindPosition,
-            data.position.add(getPosition(index / data.links.length)));
+         var state = dmz.object.state(objectHandle, dmz.mind.MindState)
+           , position = dmz.object.position(objectHandle, attr)
+           , delta
+           ;
+
+         if (position && state && state.and(dmz.mind.LockState).bool() && data.lastPos) {
+
+            delta = position.subtract(data.lastPos);
+         }
+         else { delta = getPosition(index / data.links.length); }
+         if (delta) { dmz.object.position(objectHandle, attr, delta.add(data.position)); }
       });
    }
 }
@@ -175,6 +177,7 @@ dmz.object.position.observe(self, dmz.mind.MindPosition, function (handle, attr,
    if (voteList[handle]) {
 
       voteList[handle].position = value;
-      updateVoteObjectPositions(handle);
+      voteList[handle].lastPos = prev;
+      updateVoteObjectPositions(handle, attr);
    }
 });
