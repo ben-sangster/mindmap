@@ -157,16 +157,22 @@ _updatePostedAt = function (handle) {
 
    var timestamp
      , attr
+     , state
      ;
    if (handle === _object) {
 
-      if (dmz.object.scalar(handle, dmz.stance.VoteState) === dmz.stance.VOTE_DENIED) {
-
+      switch (dmz.object.scalar(handle, dmz.stance.VoteState)) {
+      case dmz.stance.VOTE_DENIED:
+      case dmz.stance.VOTE_APPROVAL_PENDING:
          timestamp = dmz.object.timeStamp(handle, dmz.stance.PostedAtServerTimeHandle) || 0;
-      }
-      else {
-
+         break;
+      case dmz.stance.VOTE_ACTIVE:
+      case dmz.stance.VOTE_YES:
+      case dmz.stance.VOTE_NO:
+      case dmz.stance.VOTE_EXPIRED:
          timestamp = dmz.object.timeStamp(handle, dmz.stance.CreatedAtServerTimeHandle) || 0;
+         break;
+      default: timestamp = 0; break;
       }
 
       _startTime.text(dmz.util.timeStampToDate(timestamp).toString(dmz.stance.TIME_FORMAT));

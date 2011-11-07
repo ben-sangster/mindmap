@@ -103,6 +103,12 @@
                   <scale x="1.5" y="1.5"/>
                </text>
             </group>
+            <group name="lock-overlay">
+               <image name="lockIcon" resource="lockIcon">
+                  <translate name="group-all" x="40" y="-40"/>
+                  <scale x="1.5" y="1.5"/>
+               </image>
+            </group>
          </items>
          <text>
             <item name="name" attribute="mind_label"/>
@@ -114,6 +120,9 @@
             </state>
             <state name="Highlight" group="text">
                <item name="name-highlight"/>
+            </state>
+            <state name="Lock | Show_Icon" group="lock-overlay">
+               <item name="lockIcon"/>
             </state>
             <state name="Group_Color_All | Show_Icon" group="base node">
                <item name="group-all"/>

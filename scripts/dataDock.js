@@ -378,6 +378,10 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
          case dmz.stance.VOTE_YES: state = state.or(dmz.mind.VoteYesState); break;
          case dmz.stance.VOTE_NO: state = state.or(dmz.mind.VoteNoState); break;
          case dmz.stance.VOTE_DENIED: state = state.or(dmz.mind.VoteDeniedState); break
+         case dmz.stance.VOTE_ACTIVE:
+         case dmz.stance.VOTE_APPROVAL_PENDING:
+            state = state.or(dmz.mind.VoteActiveState);
+            break;
          default: break;
          };
       }

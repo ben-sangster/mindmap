@@ -13,6 +13,7 @@
    <plugin name="dmzInputPluginMouseEventToMessage" unique="link-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="delete-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="tag-event"/>
+   <plugin name="dmzInputPluginMouseEventToMessage" unique="lock-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="CreateObjectEvent"/>
 </plugin-list>
 <key-events>
@@ -109,6 +110,21 @@
          </action>
       </toolButton>
    </channel>
+   <channel name="lock-tool" message="Update_Tool_Name">
+      <attribute type="string" name="String">
+         <element value="Lock"/>
+      </attribute>
+      <toolButton autoRaise="True">
+         <button>
+            <iconSize width="32" height="32"/>
+         </button>
+         <action text="Lock" checkable="True" checked="True">
+            <icon>
+               <image file="assets/icon-lock.svg"/>
+            </icon>
+         </action>
+      </toolButton>
+   </channel>
    <channel name="tag-tool" message="Update_Tool_Name">
       <attribute type="string" name="String">
          <element value="Tag"/>
@@ -133,6 +149,7 @@
       <channel name="link-tool"/>
       <channel name="delete-tool"/>
       <channel name="tag-tool"/>
+      <channel name="lock-tool"/>
    </input>
    <target name="highlight"/>
    <deactivate message="Object_Highlight_Deactivate_Message"/>
@@ -325,6 +342,20 @@
       </state>
    </converter>
 </tag-event>
+<lock-event>
+   <input>
+      <source name="canvas"/>
+      <channel name="lock-tool"/>
+   </input>
+   <target name="lock"/>
+   <converter start="first">
+      <state name="first" type="basic">
+         <condition button="1" action="released" result="object" message="Object_Lock_Message" next="first">
+            <attribute type="object" name="handle"/>
+         </condition>
+      </state>
+   </converter>
+</lock-event>
 <CreateObjectEvent>
    <input>
       <source name="canvas"/>

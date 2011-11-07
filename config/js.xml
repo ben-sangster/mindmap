@@ -33,6 +33,8 @@
    <instance name="qaInspector"/>
    <instance name="voteInspector"/>
    <instance name="tag"/>
+   <instance name="voteOverlay"/>
+   <instance name="lock"/>
 </javascript>
 </dmz>
 

@@ -10,6 +10,7 @@
    <state name="Selected"/>
    <state name="Flow_Forward"/>
    <state name="Flow_Reverse"/>
+   <state name="Lock"/>
 <!-- Group States -->
    <state name="Group_Color_All"/>
    <state name="Group_Color_0"/>
@@ -23,6 +24,7 @@
    <state name="Vote_Denied"/>
    <state name="Vote_Passed"/>
    <state name="Vote_Failed"/>
+   <state name="Vote_Active"/>
 <!-- Object Types -->
    <object-type name="Tool"/>
    <object-type name="State Node" parent="Tool"/>
@@ -292,6 +294,16 @@
                   <translate name="group-all" x="-100" y="-75"/>
                   <scale x="2" y="2"/>
                </image>
+               <image name="voteActive" resource="voteActive">
+                  <translate name="group-all" x="-100" y="-75"/>
+                  <scale x="2" y="2"/>
+               </image>
+            </group>
+            <group name="lock-overlay">
+               <image name="lockIcon" resource="lockIcon">
+                  <translate name="group-all" x="75" y="-75"/>
+                  <scale x="2" y="2"/>
+               </image>
             </group>
          </items>
          <text>
@@ -304,6 +316,12 @@
             </state>
             <state name="Highlight" group="text">
                <item name="name-highlight"/>
+            </state>
+            <state name="Lock | Show_Icon" group="lock-overlay">
+               <item name="lockIcon"/>
+            </state>
+            <state name="Vote_Active | Show_Icon" group="vote-overlay">
+               <item name="voteActive"/>
             </state>
             <state name="Vote_Denied | Show_Icon" group="vote-overlay">
                <item name="voteDenied"/>

@@ -46,8 +46,10 @@ var dmz =
         , VoteYesState: dmz.defs.lookupState("Vote_Passed")
         , VoteNoState: dmz.defs.lookupState("Vote_Failed")
         , VoteDeniedState: dmz.defs.lookupState("Vote_Denied")
+        , VoteActiveState: dmz.defs.lookupState("Vote_Active")
         , FlowForwardState: dmz.defs.lookupState("Flow_Forward")
         , FlowReverseState: dmz.defs.lookupState("Flow_Reverse")
+        , LockState: dmz.defs.lookupState("Lock")
         }
 
    , Functions =

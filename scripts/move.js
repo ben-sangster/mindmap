@@ -21,6 +21,7 @@ dmz.messaging.subscribe(self, "Select_Object_Message", function (data) {
 dmz.messaging.subscribe(self, "Select_Move_Object_Message", function (data) {
 
    var pos
+     , state
      ;
 
    _firstMove = true;
@@ -30,8 +31,10 @@ dmz.messaging.subscribe(self, "Select_Move_Object_Message", function (data) {
       _item = data.handle("object", 0);
       _offset = data.vector("position", 0);
       dmz.object.select(_item);
+      state = dmz.object.state(_item, dmz.mind.MindState);
 
-      if (_item && _offset && dmz.object.isObject(_item)) {
+      if (_item && _offset && dmz.object.isObject(_item) &&
+         (!state || !state.and(dmz.mind.LockState).bool())) {
 
          pos = dmz.object.position(_item, dmz.mind.MindPosition);
 

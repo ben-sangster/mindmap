@@ -33,7 +33,13 @@ dmz.messaging.subscribe(self, "Object_Delete_Message",  function (data) {
                if (dmz.object.type(handle).isOfType(dmz.mind.CanvasLinkData)) {}
                else { self.log.error ("Deleting object with no state:", handle); }
             }
-            else { dmz.object.state(handle, dmz.mind.MindState, state.unset(dmz.mind.ShowIconState)); }
+            else {
+
+               dmz.object.state(
+                  handle,
+                  dmz.mind.MindState,
+                  state.unset(dmz.mind.ShowIconState.or(dmz.mind.LockState)));
+            }
          }
       }
       else if (dmz.object.isLink(handle)) { dmz.object.unlink(handle); }
