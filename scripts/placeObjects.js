@@ -140,21 +140,18 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
    else { removeLink(subHandle, superHandle); }
 });
 
-getPosition = function (ratio) {
+getPosition = function (index, length) {
 
-//   var angle = -((ratio * 5 * Math.PI / 4) - (Math.PI / 8));
-   var angle = -(ratio * Math.PI);
+   var angle = -Math.PI;
+   if (length > 1) { angle *= (1 - (index / (length - 1))); }
    return dmz.vector.create(Math.cos(angle), 0, Math.sin(angle)).multiply(OBJECT_RADIUS);
 };
 
 updateVoteObjectPositions = function (voteHandle, attr) {
 
-   var data = voteList[voteHandle]
-     , length
-     ;
-   if (data && data.position) {
+   var data = voteList[voteHandle];
+   if (data && data.position && data.links) {
 
-      length = (data.links.length > 1) ? (data.links.length - 1) : 1;
       data.links.forEach(function (objectHandle, index) {
 
          var state = dmz.object.state(objectHandle, dmz.mind.MindState)
@@ -166,7 +163,7 @@ updateVoteObjectPositions = function (voteHandle, attr) {
 
             delta = position.subtract(data.lastPos);
          }
-         else { delta = getPosition(index / data.links.length); }
+         else { delta = getPosition(index, data.links.length); }
          if (delta) { dmz.object.position(objectHandle, attr, delta.add(data.position)); }
       });
    }
