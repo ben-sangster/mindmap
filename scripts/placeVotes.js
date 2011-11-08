@@ -10,6 +10,7 @@ var dmz =
    , OBJECT_RADIUS = 700
    , MIN_Z = 0
    , MAX_Z = 40000
+   , DELTA_RESOLUTION = 3600 // Convert all timestamps from seconds to hours
    // Variables
    , Votes = {}
    // Functions
@@ -60,6 +61,7 @@ getVoteTime = function (voteHandle) {
       }
 
       result = dmz.object.timeStamp(voteHandle, attr);
+      Votes[voteHandle].time = result || 0;
    }
    return result || 0;
 };
@@ -87,6 +89,9 @@ arrangeVotes = function () {
      , minimumDistance = OBJECT_RADIUS * Math.SQRT2 * 1.3
      , nextZ = MIN_Z + minimumDistance
      , lockedList
+     , minDelta
+     , idx
+     , delta
      ;
 
    Object.keys(Votes).forEach(function (key) { voteList.push(Votes[key].handle); });
@@ -97,13 +102,31 @@ arrangeVotes = function () {
    });
    lockedList = voteList.filter(function (voteHandle) { return Votes[voteHandle].locked; });
    nextZ = getLastLockedVoteZ(lockedList) + minimumDistance;
-   voteList = voteList.filter(function (voteHandle) { return !Votes[voteHandle].locked; });
    voteList.sort(function (vote1, vote2) { return getVoteTime(vote1) - getVoteTime(vote2); });
-   voteList.forEach(function (voteHandle, index) {
+   voteList = voteList.filter(function (voteHandle) { return !Votes[voteHandle].locked; });
 
-      dmz.object.position(voteHandle, dmz.mind.MindServerPosition, [0, 0, nextZ]);
-      nextZ += minimumDistance;
-   });
+   minDelta = 0;
+   idx = 1;
+   while ((idx < voteList.length) && Votes[voteList[idx]] && !Votes[voteList[idx]].time) {
+
+      idx += 1;
+   }
+   while (idx < voteList.length) {
+
+      delta = (Votes[voteList[idx]].time - Votes[voteList[idx - 1]].time) / DELTA_RESOLUTION;
+      if (delta < minDelta) { minDelta = delta; }
+      idx += 1;
+   }
+
+   self.log.warn ("minDelta:", minDelta);
+   minDelta = (minDelta >= 1) ? minDelta : 1;
+   dmz.object.position(voteList[0], dmz.mind.MindServerPosition, [0, 0, nextZ]);
+   for (idx = 1; idx < voteList.length; idx += 1) {
+
+      var delta = (Votes[voteList[idx]].time - Votes[voteList[idx - 1]].time) / DELTA_RESOLUTION / minDelta * minimumDistance;
+      nextZ += (delta > minimumDistance) ? delta : minimumDistance;
+      dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]);
+   }
 };
 
 dmz.object.position.observe(self, dmz.mind.MindServerPosition, function (handle, attr, value) {

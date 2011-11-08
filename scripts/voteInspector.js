@@ -104,7 +104,7 @@ _updateState = function (handle) {
    }
    else {
 
-      _yesVotes.text("");
+      _yesVotes.text("IN PROGRESS");
       _noVotes.text("");
       _undecVotes.text("");
       _form.styleSheet("* { background-color: rgb(240, 240, 70); }");
