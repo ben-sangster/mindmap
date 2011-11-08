@@ -9,6 +9,7 @@ var dmz =
    // Variables
    , voteList = {}
    , objectList = {}
+   , timeList = {}
    // Functions
    , breakStr
    , getPosition
@@ -152,6 +153,10 @@ updateVoteObjectPositions = function (voteHandle, attr) {
    var data = voteList[voteHandle];
    if (data && data.position && data.links) {
 
+      data.links.sort(function (obj1, obj2) {
+
+         return (timeList[obj1] || 0) - (timeList[obj2] || 0);
+      });
       data.links.forEach(function (objectHandle, index) {
 
          var state = dmz.object.state(objectHandle, dmz.mind.MindState)
@@ -177,4 +182,9 @@ dmz.object.position.observe(self, dmz.mind.MindPosition, function (handle, attr,
       voteList[handle].lastPos = prev;
       updateVoteObjectPositions(handle, attr);
    }
+});
+
+dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTimeHandle, function (handle, attr, value) {
+
+   timeList[handle] = value;
 });

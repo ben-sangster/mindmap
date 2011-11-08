@@ -13,7 +13,6 @@ dmz.messaging.subscribe(self, "Object_Delete_Message",  function (data) {
      , links
      ;
 
-   self.log.warn ("ObjectDeleteMessage:", handle);
    if (handle) {
 
       if (dmz.object.isObject(handle)) {
