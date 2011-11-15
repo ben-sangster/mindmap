@@ -301,7 +301,7 @@
             </group>
             <group name="lock-overlay">
                <image name="lockIcon" resource="lockIcon">
-                  <translate name="group-all" x="75" y="-75"/>
+                  <translate name="group-all" x="65" y="-75"/>
                   <scale x="2" y="2"/>
                </image>
             </group>

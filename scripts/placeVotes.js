@@ -5,6 +5,7 @@ var dmz =
    , object: require("dmz/components/object")
    , mask: require("dmz/types/mask")
    , vector: require("dmz/types/vector")
+   , data: require("dmz/runtime/data")
    }
    // Consts
    , OBJECT_RADIUS = 700
@@ -13,6 +14,7 @@ var dmz =
    , DELTA_RESOLUTION = 3600 // Convert all timestamps from seconds to hours
    // Variables
    , Votes = {}
+   , CreateMsg = dmz.messaging.create("DisplayObjectMessage")
    // Functions
    , getPosition
    , getVoteTime
@@ -87,45 +89,30 @@ arrangeVotes = function () {
 
    var voteList = []
      , minimumDistance = OBJECT_RADIUS * Math.SQRT2 * 1.3
-     , nextZ = MIN_Z + minimumDistance
+     , nextZ
      , lockedList
-     , minDelta
      , idx
-     , delta
+     , state
+     , data
      ;
 
    Object.keys(Votes).forEach(function (key) { voteList.push(Votes[key].handle); });
-   voteList = voteList.filter(function (voteHandle) {
-
-      var state = dmz.object.state(voteHandle, dmz.mind.MindState) || dmz.mask.create();
-      return state.and(dmz.mind.ShowIconState).bool();
-   });
    lockedList = voteList.filter(function (voteHandle) { return Votes[voteHandle].locked; });
-   nextZ = getLastLockedVoteZ(lockedList) + minimumDistance;
    voteList.sort(function (vote1, vote2) { return getVoteTime(vote1) - getVoteTime(vote2); });
    voteList = voteList.filter(function (voteHandle) { return !Votes[voteHandle].locked; });
 
-   minDelta = 0;
-   idx = 1;
-   while ((idx < voteList.length) && Votes[voteList[idx]] && !Votes[voteList[idx]].time) {
+   for (idx = 0; idx < voteList.length; idx += 1) {
 
-      idx += 1;
-   }
-   while (idx < voteList.length) {
+      if (!idx) { nextZ = getLastLockedVoteZ(lockedList) + minimumDistance; }
+      else { nextZ += minimumDistance; }
+      state = dmz.object.state(voteList[idx], dmz.mind.MindState) || dmz.mask.create();
+      if (!state.and(dmz.mind.ShowIconState).bool()) {
 
-      delta = (Votes[voteList[idx]].time - Votes[voteList[idx - 1]].time) / DELTA_RESOLUTION;
-      if (delta < minDelta) { minDelta = delta; }
-      idx += 1;
-   }
-
-   self.log.warn ("minDelta:", minDelta);
-   minDelta = (minDelta >= 1) ? minDelta : 1;
-   dmz.object.position(voteList[0], dmz.mind.MindServerPosition, [0, 0, nextZ]);
-   for (idx = 1; idx < voteList.length; idx += 1) {
-
-      var delta = (Votes[voteList[idx]].time - Votes[voteList[idx - 1]].time) / DELTA_RESOLUTION / minDelta * minimumDistance;
-      nextZ += (delta > minimumDistance) ? delta : minimumDistance;
-      dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]);
+         data = dmz.data.wrapHandle(voteList[idx]);
+         data.vector(dmz.mind.MindPosition, 0, [0, 0, nextZ]);
+         CreateMsg.send(data);
+      }
+      else { dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]); }
    }
 };
 

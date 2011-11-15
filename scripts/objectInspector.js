@@ -23,7 +23,7 @@ var dmz =
        dmz.ui.mainWindow.createDock
           (DockName
           , { area: dmz.ui.consts.RightToolBarArea
-            , allowedAreas: [dmz.ui.consts.NoToolBarArea]
+            , allowedAreas: [dmz.ui.consts.AllToolBarAreas]
             , floating: true
             , visible: true
             }

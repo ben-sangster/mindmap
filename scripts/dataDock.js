@@ -78,6 +78,7 @@ var dmz =
    , updateDate
    , remove
    , add
+   , addToCanvas
    ;
 
 DataWindow.observe(self, "arrangeVotesButton", "clicked", function () { ArrangeMessage.send(); });
@@ -353,28 +354,27 @@ dmz.object.state.observe(self, dmz.mind.MindState, function (handle, attr, value
    else if (prev && prev.and(dmz.mind.ShowIconState).bool()) { add(DataItems[handle]); }
 });
 
-dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
+addToCanvas = function (handle, position) {
 
-   var position = data.vector(dmz.mind.MindPosition, 0)
-     , state
-     , palette
+   var item = DataItems[handle]
      , color = dmz.mind.GroupColorAllState
+     , state
      ;
-   if (SelectedWidget) {
+   if (item && position) {
 
-      updateGroups(SelectedWidget.handle);
-      dmz.object.position(SelectedWidget.handle, dmz.mind.MindPosition, position);
-      if (SelectedWidget.groupList.length == 1) {
+      updateGroups(handle);
+      dmz.object.position(item.handle, dmz.mind.MindPosition, position);
+      if (item.groupList.length == 1) {
 
-         color = GROUP_COLOR_STATES[dmz.object.scalar(SelectedWidget.groupList[0], dmz.stance.ID)] || color;
+         color = GROUP_COLOR_STATES[dmz.object.scalar(item.groupList[0], dmz.stance.ID)] || color;
       }
 
-      state = dmz.object.state(SelectedWidget.handle, dmz.mind.MindState) || color;
+      state = dmz.object.state(item.handle, dmz.mind.MindState) || color;
 
-      if (SelectedWidget.type.isOfType(dmz.stance.VoteType)) {
+      if (item.type.isOfType(dmz.stance.VoteType)) {
 
          state = state.unset(dmz.mind.VoteYesState.or(dmz.mind.VoteNoState.or(dmz.mind.VoteDeniedState)));
-         switch (dmz.object.scalar(SelectedWidget.handle, dmz.stance.VoteState)) {
+         switch (dmz.object.scalar(item.handle, dmz.stance.VoteState)) {
          case dmz.stance.VOTE_YES: state = state.or(dmz.mind.VoteYesState); break;
          case dmz.stance.VOTE_NO: state = state.or(dmz.mind.VoteNoState); break;
          case dmz.stance.VOTE_DENIED: state = state.or(dmz.mind.VoteDeniedState); break
@@ -385,8 +385,22 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
          default: break;
          };
       }
+      dmz.object.state(item.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState));
+   }
 
-      dmz.object.state(SelectedWidget.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState));
+};
+
+dmz.message.subscribe(self, "DisplayObjectMessage", function (data) {
+
+   addToCanvas(dmz.data.unwrapHandle(data), data.vector(dmz.mind.MindPosition, 0));
+});
+
+dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
+
+   var palette;
+   if (SelectedWidget) {
+
+      addToCanvas(SelectedWidget.handle, data.vector(dmz.mind.MindPosition, 0));
       palette = SelectedWidget.widget.palette();
       palette.color(dmz.ui.color.Window, OrigPalette);
       SelectedWidget.widget.palette(palette);

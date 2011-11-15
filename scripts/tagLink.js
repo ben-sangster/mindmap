@@ -4,9 +4,11 @@ var dmz =
    , object: require("dmz/components/object")
    , mask: require("dmz/types/mask")
    , messaging: require("dmz/runtime/messaging")
+   , data: require("dmz/runtime/data")
    }
    // Variables
    , Tags = {}
+   , CreateMsg = dmz.messaging.create("DisplayObjectMessage")
    ;
 
 dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, data) {
@@ -39,12 +41,21 @@ dmz.messaging.subscribe(self, "Auto_Link_Tags_Message", function () {
    });
    Object.keys(Links).forEach(function (handleStr) {
 
-      var handle = parseInt(handleStr);
+      var handle = parseInt(handleStr)
+        , state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create()
+        ;
       Links[handleStr].forEach(function (objectHandle) {
 
+         var data;
          if (!dmz.object.linkHandle(dmz.mind.CanvasLink, handle, objectHandle) &&
             !dmz.object.linkHandle(dmz.mind.CanvasLink, objectHandle, handle)) {
 
+            if (state.and(dmz.mind.ShowIconState).bool()) {
+
+               data = dmz.data.wrapHandle(objectHandle);
+               data.vector(dmz.mind.MindPosition, 0, [0, 0, 0]);
+               CreateMsg.send(data);
+            }
             dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
          }
       });
