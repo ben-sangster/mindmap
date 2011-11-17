@@ -3,19 +3,9 @@
 <plugin-list>
    <plugin name="dmzObjectModuleBasic"/>
    <plugin name="dmzObjectModuleSelectBasic"/>
-   <plugin name="dmzObjectPluginUndo"/>
    <plugin name="dmzObjectPluginCleanup" scope="cleanup"/>
    <plugin name="dmzRenderModulePickBasic"/>
    <plugin name="dmzQtPluginList"/>
-<!--
-   <plugin name="dmzQtPluginObjectInspector" unique="object-inspector"/>
-   <plugin name="dmzArchivePluginAutoSave"/>
-   <plugin name="dmzJsPluginObserver"/>
-   <plugin name="dmzQtPluginMessageInspector" unique="message-inspector"/>
-   <plugin name="dmzPluginMsgDump"/>
-   <plugin name="dmzObjectPluginDump"/>
-   <plugin name="dmzPluginUndoDump"/>
--->
 </plugin-list>
 <archive-module>
    <archive version="0"/>
