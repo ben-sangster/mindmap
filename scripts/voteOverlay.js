@@ -1,9 +1,8 @@
 var dmz =
-      { object: require("dmz/components/object")
-      , mind: require("mindConst")
-      , stance: require("stanceConst")
-      }
-   ;
+   { object: require("dmz/components/object")
+   , mind: require("mindConst")
+   , stance: require("stanceConst")
+   }
 
 dmz.object.scalar.observe(self, dmz.stance.VoteState, function (handle, attr, value) {
 

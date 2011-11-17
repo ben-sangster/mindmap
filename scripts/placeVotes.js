@@ -6,6 +6,7 @@ var dmz =
    , mask: require("dmz/types/mask")
    , vector: require("dmz/types/vector")
    , data: require("dmz/runtime/data")
+   , module: require("dmz/runtime/module")
    }
    // Consts
    , OBJECT_RADIUS = 700
@@ -20,6 +21,7 @@ var dmz =
    , getVoteTime
    , getLastLockedVoteZ
    , arrangeVotes
+   , addToCanvas
    ;
 
 dmz.object.create.observe(self, function (handle, type) {
@@ -108,9 +110,7 @@ arrangeVotes = function () {
       state = dmz.object.state(voteList[idx], dmz.mind.MindState) || dmz.mask.create();
       if (!state.and(dmz.mind.ShowIconState).bool()) {
 
-         data = dmz.data.wrapHandle(voteList[idx]);
-         data.vector(dmz.mind.MindPosition, 0, [0, 0, nextZ]);
-         CreateMsg.send(data);
+         addToCanvas(voteList[idx], [0, 0, nextZ]);
       }
       else { dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]); }
    }
@@ -122,3 +122,7 @@ dmz.object.position.observe(self, dmz.mind.MindServerPosition, function (handle,
 });
 
 dmz.messaging.subscribe(self, "Vote_Auto_Place_Message",  arrangeVotes);
+dmz.module.subscribe(self, "dataDock", function (Mode, module) {
+
+   if (Mode === dmz.module.Activate) { addToCanvas = module.addToCanvas; }
+});

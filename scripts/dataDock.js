@@ -68,6 +68,7 @@ var dmz =
    , OrigPalette = false
    , ArrangeMessage = dmz.message.create("Vote_Auto_Place_Message")
    , LinkMessage = dmz.message.create("Auto_Link_Tags_Message")
+   , _exports = {}
 
    // Functions
    , getDataItem
@@ -360,17 +361,16 @@ addToCanvas = function (handle, position) {
      , color = dmz.mind.GroupColorAllState
      , state
      ;
-   if (item && position) {
+   if (item) {
 
       updateGroups(handle);
-      dmz.object.position(item.handle, dmz.mind.MindPosition, position);
+      if (position) { dmz.object.position(item.handle, dmz.mind.MindPosition, position); }
       if (item.groupList.length == 1) {
 
          color = GROUP_COLOR_STATES[dmz.object.scalar(item.groupList[0], dmz.stance.ID)] || color;
       }
 
-      state = dmz.object.state(item.handle, dmz.mind.MindState) || color;
-
+      state = dmz.object.state(item.handle, dmz.mind.MindState) || dmz.mask.create();
       if (item.type.isOfType(dmz.stance.VoteType)) {
 
          state = state.unset(dmz.mind.VoteYesState.or(dmz.mind.VoteNoState.or(dmz.mind.VoteDeniedState)));
@@ -385,9 +385,8 @@ addToCanvas = function (handle, position) {
          default: break;
          };
       }
-      dmz.object.state(item.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState));
+      dmz.object.state(item.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState).or(color));
    }
-
 };
 
 dmz.message.subscribe(self, "DisplayObjectMessage", function (data) {
@@ -408,3 +407,5 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
    }
 });
 
+_exports.addToCanvas = addToCanvas;
+dmz.module.publish(self, _exports);

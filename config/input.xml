@@ -8,7 +8,6 @@
    <plugin name="dmzInputPluginChannelMessage" scope="tool-name"/>
    <plugin name="dmzQtPluginButtonToChannel" scope="tool-name"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="mouse-move-event"/>
-   <plugin name="dmzInputPluginMouseEventToMessage" unique="edit-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="move-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="link-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="delete-event"/>
@@ -61,21 +60,6 @@
          <action text="Move" checkable="True" checked="True">
             <icon>
                <image file="assets/icon_move.png"/>
-            </icon>
-         </action>
-      </toolButton>
-   </channel>
-   <channel name="edit-tool" message="Update_Tool_Name" isect="false">
-      <attribute type="string" name="String">
-         <element value="Edit"/>
-      </attribute>
-      <toolButton autoRaise="True">
-         <button>
-            <iconSize width="32" height="32"/>
-         </button>
-         <action text="Edit" checkable="True" checked="True">
-            <icon>
-               <image file="assets/icon_edit.png"/>
             </icon>
          </action>
       </toolButton>
@@ -144,7 +128,6 @@
 <mouse-move-event>
    <input>
       <source name="canvas"/>
-      <channel name="edit-tool"/>
       <channel name="move-tool"/>
       <channel name="link-tool"/>
       <channel name="delete-tool"/>
@@ -314,20 +297,6 @@
       </state>
    </converter>
 </delete-event>
-<edit-event>
-   <input>
-      <source name="canvas"/>
-      <channel name="edit-tool"/>
-   </input>
-   <target name="editObject"/>
-   <converter start="first">
-      <state name="first" type="basic">
-         <condition button="1" action="released" result="object" message="Object_Edit_Message" next="first">
-            <attribute type="object" name="handle"/>
-         </condition>
-      </state>
-   </converter>
-</edit-event>
 <tag-event>
    <input>
       <source name="canvas"/>

@@ -5,10 +5,12 @@ var dmz =
    , mask: require("dmz/types/mask")
    , messaging: require("dmz/runtime/messaging")
    , data: require("dmz/runtime/data")
+   , module: require("dmz/runtime/module")
    }
    // Variables
    , Tags = {}
-   , CreateMsg = dmz.messaging.create("DisplayObjectMessage")
+   // Function
+   , addToCanvas
    ;
 
 dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, data) {
@@ -44,20 +46,21 @@ dmz.messaging.subscribe(self, "Auto_Link_Tags_Message", function () {
       var handle = parseInt(handleStr)
         , state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create()
         ;
+
       Links[handleStr].forEach(function (objectHandle) {
 
          var data;
          if (!dmz.object.linkHandle(dmz.mind.CanvasLink, handle, objectHandle) &&
             !dmz.object.linkHandle(dmz.mind.CanvasLink, objectHandle, handle)) {
 
-            if (state.and(dmz.mind.ShowIconState).bool()) {
-
-               data = dmz.data.wrapHandle(objectHandle);
-               data.vector(dmz.mind.MindPosition, 0, [0, 0, 0]);
-               CreateMsg.send(data);
-            }
+            if (state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(objectHandle); }
             dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
          }
       });
    });
+});
+
+dmz.module.subscribe(self, "dataDock", function (Mode, module) {
+
+   if (Mode === dmz.module.Activate) { addToCanvas = module.addToCanvas; }
 });
