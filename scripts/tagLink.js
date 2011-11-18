@@ -49,12 +49,21 @@ dmz.messaging.subscribe(self, "Auto_Link_Tags_Message", function () {
 
       Links[handleStr].forEach(function (objectHandle) {
 
-         var data;
+         var data
+           , linkHandle
+           , attrObj
+           ;
          if (!dmz.object.linkHandle(dmz.mind.CanvasLink, handle, objectHandle) &&
             !dmz.object.linkHandle(dmz.mind.CanvasLink, objectHandle, handle)) {
 
             if (state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(objectHandle); }
-            dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
+            linkHandle = dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
+            if (linkHandle) {
+
+               attrObj = dmz.object.create(dmz.mind.CanvasLinkData);
+               dmz.object.activate(attrObj);
+               dmz.object.linkAttributeObject(linkHandle, attrObj);
+            }
          }
       });
    });

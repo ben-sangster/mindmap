@@ -41,11 +41,11 @@ updateLinkFlow = function (superHandle, subHandle, attrObjHandle) {
      ;
 
    superTime =
-      dmz.object.timeStamp(superHandle, dmz.stance.PostedAtServerTimeHandle) ||
-      dmz.object.timeStamp(superHandle, dmz.stance.CreatedAtServerTimeHandle);
+      dmz.object.timeStamp(superHandle, dmz.stance.CreatedAtServerTimeHandle) ||
+      dmz.object.timeStamp(superHandle, dmz.stance.PostedAtServerTimeHandle);
    subTime =
-      dmz.object.timeStamp(subHandle, dmz.stance.PostedAtServerTimeHandle) ||
-      dmz.object.timeStamp(subHandle, dmz.stance.CreatedAtServerTimeHandle);
+      dmz.object.timeStamp(subHandle, dmz.stance.CreatedAtServerTimeHandle) ||
+      dmz.object.timeStamp(subHandle, dmz.stance.PostedAtServerTimeHandle);
    if (superTime && subTime) {
 
       state = dmz.object.state(attrObjHandle, dmz.mind.MindState) || dmz.mask.create();
