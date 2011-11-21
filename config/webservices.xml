@@ -59,7 +59,7 @@
 </login-dialog>
 <chds-login>
    <login-target name="dmzWebServicesModuleQt"/>
-   <defaultdb name="stance_120_testing"/>
+   <defaultdb name="stance_120_active"/>
    <!-- <attribute database="databaseName"/> -->
    <picture-grid>
       <row>
