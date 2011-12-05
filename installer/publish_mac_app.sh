@@ -8,15 +8,15 @@ if [ "$CHANNEL" = "" ] ; then
    CHANNEL=devel
 fi
 
-VERSION_XML=$DEPTH/bin/macos-opt/MINDMAP.app/Contents/Resources/config/version.xml
-UPDATE=MINDMAP-`cat $DEPTH/tmp/macos-opt/mindmapapp/versionnumber.txt`-`cat $DEPTH/tmp/macos-opt/mindmapapp/buildnumber.txt`
-OLD_UPDATE=MINDMAP-`cat $DEPTH/tmp/macos-opt/mindmapapp/buildnumber.txt`
+VERSION_XML=$DEPTH/bin/macos-opt/mindmap.app/Contents/Resources/config/version.xml
+UPDATE=mindmap-`cat $DEPTH/tmp/macos-opt/mindmapapp/versionnumber.txt`-`cat $DEPTH/tmp/macos-opt/mindmapapp/buildnumber.txt`
+OLD_UPDATE=mindmap-`cat $DEPTH/tmp/macos-opt/mindmapapp/buildnumber.txt`
 INSTALLER=$DEPTH/installers/$UPDATE.dmg
 
 echo "publishing $INSTALLER..."
 
-echo "scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/macos-$CHANNEL/MINDMAP.xml"
-scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/macos-$CHANNEL/MINDMAP.xml
+echo "scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/macos-$CHANNEL/mindmap.xml"
+scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/macos-$CHANNEL/mindmap.xml
 
 echo "scp ./changelog.html dmzupdate.chds.us:/home/dmzupdate.chds.us/public/downloads/$UPDATE.html"
 scp ./changelog.html dmzupdate.chds.us:/home/dmzupdate.chds.us/public/downloads/$UPDATE.html
