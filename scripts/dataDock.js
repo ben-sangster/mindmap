@@ -71,6 +71,7 @@ var dmz =
    , _exports = {}
 
    // Functions
+   , getWidget
    , getDataItem
    , updateGroups
    , updateTags
@@ -116,11 +117,12 @@ DataWindow.observe(self, "linkButton", "clicked", function () { LinkMessage.send
 
 add = function (item) {
 
-   if (item && item.widget && !item.visible) {
+   if (item && (!item.widget || !item.widget.visible)) {
 
-      scrollLayout.insertWidget(0, item.widget);
-      item.widget.show();
-      item.visible = true;
+      getWidget(item.handle)
+      scrollLayout.insertWidget(0, item.widget.widget);
+      item.widget.widget.show();
+      item.widget.visible = true;
    }
 };
 
@@ -128,9 +130,11 @@ remove = function (item) {
 
    if (item && item.widget) {
 
-      scrollLayout.removeWidget(item.widget);
-      item.widget.hide();
-      item.visible = false;
+      item.widget.widget.hide();
+      item.widget.visible = false;
+      scrollLayout.removeWidget(item.widget.widget);
+      widgetStack.push(item.widget);
+      delete item.widget;
    }
 };
 
@@ -140,7 +144,10 @@ updateDate = function (handle) {
    if (item) {
 
       item.timeStamp = dmz.object.timeStamp(handle, dmz.stance.CreatedAtServerTimeHandle) || 0;
-      item.date.text(dmz.util.timeStampToDate(item.timeStamp).toString(dmz.stance.TIME_FORMAT));
+      if (item.widget) {
+
+         item.widget.date.text(dmz.util.timeStampToDate(item.timeStamp).toString(dmz.stance.TIME_FORMAT));
+      }
    }
 };
 
@@ -157,17 +164,19 @@ updateGroups = function (handle) {
 
          list.push(dmz.stance.getDisplayName(groupHandle));
       });
-      item.group.text(list.toString());
+      if (item.widget) { item.widget.group.text(list.toString()); }
    }
 };
 
 updateTags = function (handle) {
 
-   var item = DataItems[handle];
+   var item = DataItems[handle]
+     , text
+     ;
    if (item) {
 
       item.tagList = dmz.mind.getDataTags(handle) || [];
-      item.tags.text(item.tagList.toString());
+      if (item.widget) { item.widget.tags.text(item.tagList.toString()); }
    }
 };
 
@@ -199,11 +208,11 @@ updateTitle = function (handle) {
          attr = dmz.stance.TitleHandle;
       }
 
-      if (attr) {
+      if (attr && item.widget) {
 
          str = (dmz.object.text(handle, attr) || "");
          if (str.length > TITLE_LENGTH) { str = str.substr(0, TITLE_LENGTH) + "..."; }
-         item.title.text(str);
+         item.widget.title.text(str);
       }
    }
 };
@@ -215,7 +224,7 @@ updateIcon = function (handle) {
      , config
      ;
 
-   if (item) {
+   if (item && item.widget) {
 
       config = item.type.config() || (item.type.parent() ? item.type.parent().config() : false);
       resource = config.string("icon.resource");
@@ -227,7 +236,7 @@ updateIcon = function (handle) {
 
       if (resource) {
 
-         item.icon.pixmap(dmz.ui.graph.createPixmap(dmz.resources.findFile(resource)));
+         item.widget.icon.pixmap(dmz.ui.graph.createPixmap(dmz.resources.findFile(resource)));
       }
    }
 }
@@ -237,7 +246,8 @@ DataWindow.observe(self, "updateButton", "clicked", function () {
    Object.keys(DataItems).forEach(function (key) {
 
       updateGroups(DataItems[key].handle);
-      updateTags(DataItems[key].handle);
+      if (DataItems[key].widget) { DataItems[key].widget.tags.text(item.tagList.toString()); }
+//      updateTags(DataItems[key].handle);
       updateIcon(DataItems[key].handle);
       updateTitle(DataItems[key].handle);
       updateDate(DataItems[key].handle);
@@ -267,13 +277,13 @@ DataWindow.observe(self, "filterButton", "clicked", function () {
    });
 });
 
-getDataItem = function (handle) {
+getWidget = function (handle) {
 
-   var type = dmz.object.type(handle)
-     , item = DataItems[handle]
+   var item = widgetStack.pop()
+     , data = DataItems[handle]
      ;
 
-   if (type) {
+   if (data) {
 
       if (!item) {
 
@@ -283,8 +293,6 @@ getDataItem = function (handle) {
          item.date = item.widget.lookup("dateLabel");
          item.group = item.widget.lookup("groupLabel");
          item.title = item.widget.lookup("titleLabel");
-         item.handle = handle;
-         item.type = type;
          item.visible = false;
          item.widget.hide();
          item.widget.eventFilter(self, function (object, event) {
@@ -314,15 +322,71 @@ getDataItem = function (handle) {
          });
       }
 
-      DataItems[handle] = item;
-      updateTags(handle);
+      data.widget = item;
+      item.tags.text(data.tagList.toString());
+//      updateTags(handle);
       updateTitle(handle);
       updateIcon(handle);
       updateDate(handle);
-      dmz.time.setTimer(self, function () { updateGroups(handle); });
    }
-   return item;
 };
+
+//getDataItem = function (handle) {
+
+//   var type = dmz.object.type(handle)
+//     , item = DataItems[handle]
+//     ;
+
+//   if (type) {
+
+//      if (!item) {
+
+//         item = { widget: dmz.ui.loader.load("DataItem.ui") };
+//         item.icon = item.widget.lookup("iconLabel");
+//         item.tags = item.widget.lookup("tagLabel");
+//         item.date = item.widget.lookup("dateLabel");
+//         item.group = item.widget.lookup("groupLabel");
+//         item.title = item.widget.lookup("titleLabel");
+//         item.handle = handle;
+//         item.type = type;
+//         item.visible = false;
+//         item.widget.hide();
+//         item.widget.eventFilter(self, function (object, event) {
+
+//            var type = event.type()
+//              , palette
+//              ;
+
+//            if (type == dmz.ui.event.MouseButtonPress) {
+
+//               if (!SelectedWidget || (SelectedWidget.widget != object)) {
+
+//                  if (SelectedWidget) {
+
+//                     palette = SelectedWidget.widget.palette();
+//                     palette.color(dmz.ui.color.Window, OrigPalette);
+//                     SelectedWidget.widget.palette(palette);
+//                  }
+
+//                  SelectedWidget = item;
+//                  palette = SelectedWidget.widget.palette();
+//                  if (!OrigPalette) { OrigPalette = palette.color(dmz.ui.color.Window); }
+//                  palette.color(dmz.ui.color.Window, { r: .82, g: .71, b: .71 });
+//                  SelectedWidget.widget.palette(palette);
+//               }
+//            }
+//         });
+//      }
+
+//      DataItems[handle] = item;
+//      updateTags(handle);
+//      updateTitle(handle);
+//      updateIcon(handle);
+//      updateDate(handle);
+//      dmz.time.setTimer(self, function () { updateGroups(handle); });
+//   }
+//   return item;
+//};
 
 dmz.object.create.observe(self, function (handle, type) {
 
@@ -331,11 +395,26 @@ dmz.object.create.observe(self, function (handle, type) {
      ;
    if (TypeList[type]) {
 
-      item = getDataItem(handle);
-      if (item) {
+      item = { handle: handle, type: type, tagList: [] };
+      DataItems[handle] = item;
+      dmz.time.setTimer(self, function () { updateGroups(handle); });
+   }
+});
+
+//dmz.object.data.observe(self, dmz.stance.TagHandle, updateTags);
+dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, value) {
+
+   var item = DataItems[handle]
+     , text
+     ;
+   if (item) {
+
+      item.tagList = dmz.stance.getTags(value) || [];
+      if (item.widget) { item.widget.tags.text(item.tagList.toString()); }
+      else {
 
          text = dataFilter.text() || "";
-         if (item.tagList.length &&
+         if (!item.show && item.tagList.length &&
             ((text.length === 0) || (item.tagList.indexOf(text) !== -1))) {
 
             add(item);
@@ -344,15 +423,18 @@ dmz.object.create.observe(self, function (handle, type) {
    }
 });
 
-dmz.object.data.observe(self, dmz.stance.TagHandle, updateTags);
 dmz.object.text.observe(self, dmz.stance.TitleHandle, updateTitle);
 dmz.object.text.observe(self, dmz.stance.TextHandle, updateTitle);
 dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTimeHandle, updateTags);
 dmz.object.text.observe(self, dmz.stance.TitleHandle, updateTitle);
 dmz.object.state.observe(self, dmz.mind.MindState, function (handle, attr, value, prev) {
 
-   if (value.and(dmz.mind.ShowIconState).bool()) { remove(DataItems[handle]); }
-   else if (prev && prev.and(dmz.mind.ShowIconState).bool()) { add(DataItems[handle]); }
+   if (DataItems[handle]) {
+
+      DataItems[handle].show = value.and(dmz.mind.ShowIconState).bool();
+      if (DataItems[handle].show) { remove(DataItems[handle]); }
+      else if (prev && prev.and(dmz.mind.ShowIconState).bool()) { add(DataItems[handle]); }
+   }
 });
 
 addToCanvas = function (handle, position) {
