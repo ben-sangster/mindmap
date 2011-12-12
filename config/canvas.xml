@@ -30,12 +30,15 @@
 </main-window>
 <canvas>
    <canvas opengl="false" antialiasing="true" textantialiasing="true">
-      <zoom min="0.2" max="0.52" default="0.3" step="0.2"/>
+<!--      <zoom min="0.2" max="0.52" default="0.3" step="0.2"/>-->
+      <zoom min="0.7" max="1.02" default="0.8" step="0.2"/>
    </canvas>
    <scene>
       <background grid="true"/>
-      <min x="-1000" y="0"/>
-      <max x="1000" y="40000"/>
+<!--      <min x="-1000" y="0"/>
+      <max x="1000" y="40000"/>-->
+      <min x="-500" y="0"/>
+      <max x="500" y="40000"/>
    </scene>
    <scrollbars value="true"/>
    <setTop value="true"/>
@@ -58,14 +61,30 @@
       <template name="icon">
          <items>
             <group name="base node">
-               <image name="group-all" resource="group-all"/>
-               <image name="group-0" resource="group-0"/>
-               <image name="group-1" resource="group-1"/>
-               <image name="group-2" resource="group-2"/>
-               <image name="group-3" resource="group-3"/>
-               <image name="group-4" resource="group-4"/>
-               <image name="group-5" resource="group-5"/>
-               <image name="group-6" resource="group-6"/>
+               <image name="group-all" resource="group-all">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-0" resource="group-0">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-1" resource="group-1">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-2" resource="group-2">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-3" resource="group-3">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-4" resource="group-4">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-5" resource="group-5">
+                  <scale x="0.3" y="0.3"/>
+               </image>
+               <image name="group-6" resource="group-6">
+                  <scale x="0.3" y="0.3"/>
+               </image>
             </group>
             <group name="text">
                <text name="name">
@@ -165,7 +184,8 @@
 </canvas-link>
 <canvas-zoom>
 <!--   <zoom min="0.2" max="1.0" default="0.3"/>-->
-   <zoom min="0.2" max="0.52" default="0.3"/>
+   <!-- <zoom min="0.2" max="0.52" default="0.3"/> -->
+   <zoom min="0.7" max="1.02" default="0.8"/>
    <hide value="true"/>
 </canvas-zoom>
 <icon-pallet>
@@ -179,8 +199,11 @@
    </module>
 </canvas-pick>
 <zoomText>
-   <data zoom="0.33" length="20"/>
+<!--   <data zoom="0.33" length="20"/>
    <data zoom="0.40" length="70"/>
-   <data zoom="0.51" length="140"/>
+   <data zoom="0.51" length="140"/> -->
+   <data zoom="0.75" length="20"/>
+   <data zoom="0.8" length="70"/>
+   <data zoom="1.0" length="140"/>
 </zoomText>
 </dmz>
