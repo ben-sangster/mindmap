@@ -220,30 +220,14 @@
       <canvas-object-basic>
          <items>
             <group name="base node">
-               <image name="group-all" resource="vote-all">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-0" resource="vote-0">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-1" resource="vote-1">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-2" resource="vote-2">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-3" resource="vote-3">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-4" resource="vote-4">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-5" resource="vote-5">
-                  <scale x="2" y="2"/>
-               </image>
-               <image name="group-6" resource="vote-6">
-                  <scale x="2" y="2"/>
-               </image>
+               <image name="group-all" resource="vote-all"/>
+               <image name="group-0" resource="vote-0"/>
+               <image name="group-1" resource="vote-1"/>
+               <image name="group-2" resource="vote-2"/>
+               <image name="group-3" resource="vote-3"/>
+               <image name="group-4" resource="vote-4"/>
+               <image name="group-5" resource="vote-5"/>
+               <image name="group-6" resource="vote-6"/>
             </group>
             <group name="text">
                <text name="name">
@@ -259,9 +243,9 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="150"/>
+                  <translate name="group-all" x="0" y="75"/>
                   <alignment value="center"/>
-                  <scale x="2.8" y="2.8"/>
+                  <scale x="1.4" y="1.4"/>
                </text>
                <text name="name-highlight">
                   <textColor>
@@ -276,33 +260,33 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="150"/>
+                  <translate name="group-all" x="0" y="75"/>
                   <alignment value="center"/>
-                  <scale x="2.8" y="2.8"/>
+                  <scale x="1.4" y="1.4"/>
                </text>
             </group>
             <group name="vote-overlay">
                <image name="voteYes" resource="voteYes">
-                  <translate name="group-all" x="-100" y="-75"/>
-                  <scale x="2" y="2"/>
+                  <translate name="group-all" x="-50" y="-30"/>
+<!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteNo" resource="voteNo">
-                  <translate name="group-all" x="-100" y="-75"/>
-                  <scale x="2" y="2"/>
+                  <translate name="group-all" x="-50" y="-30"/>
+<!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteDenied" resource="voteDenied">
-                  <translate name="group-all" x="-100" y="-75"/>
-                  <scale x="2" y="2"/>
+                  <translate name="group-all" x="-50" y="-30"/>
+<!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteActive" resource="voteActive">
-                  <translate name="group-all" x="-100" y="-75"/>
-                  <scale x="2" y="2"/>
+                  <translate name="group-all" x="-50" y="-30"/>
+<!--                  <scale x="2" y="2"/>-->
                </image>
             </group>
             <group name="lock-overlay">
                <image name="lockIcon" resource="lockIcon">
-                  <translate name="group-all" x="65" y="-75"/>
-                  <scale x="2" y="2"/>
+                  <translate name="group-all" x="30" y="-30"/>
+<!--                  <scale x="2" y="2"/>-->
                </image>
             </group>
          </items>
