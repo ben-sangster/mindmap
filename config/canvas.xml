@@ -62,28 +62,28 @@
          <items>
             <group name="base node">
                <image name="group-all" resource="group-all">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-0" resource="group-0">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-1" resource="group-1">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-2" resource="group-2">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-3" resource="group-3">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-4" resource="group-4">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-5" resource="group-5">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
                <image name="group-6" resource="group-6">
-                  <scale x="0.3" y="0.3"/>
+                  <scale x="0.5" y="0.5"/>
                </image>
             </group>
             <group name="text">
@@ -100,9 +100,8 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="70"/>
+                  <translate name="group-all" x="0" y="35"/>
                   <alignment value="center"/>
-                  <scale x="1.5" y="1.5"/>
                </text>
                <text name="name-highlight">
                   <textColor>
@@ -117,15 +116,14 @@
                      <string value="black"/>
                      <alpha value="0.75"/>
                   </backgroundColor>
-                  <translate name="group-all" x="0" y="70"/>
+                  <translate name="group-all" x="0" y="35"/>
                   <alignment value="center"/>
-                  <scale x="1.5" y="1.5"/>
                </text>
             </group>
             <group name="lock-overlay">
                <image name="lockIcon" resource="lockIcon">
-                  <translate name="group-all" x="40" y="-40"/>
-                  <scale x="1.5" y="1.5"/>
+                  <translate name="group-all" x="4" y="-4"/>
+                  <scale x="0.75" y="0.75"/>
                </image>
             </group>
          </items>
@@ -176,11 +174,11 @@
       <position name="mind_position"/>
    </attribute>
    <link name="canvas_link"/>
-   <pen-width value="10"/>
+   <pen-width value="5"/>
    <flow-attribute name="mind_state"/>
    <forward-flow-state name="Flow_Forward"/>
    <reverse-flow-state name="Flow_Reverse"/>
-   <arrow-multiplier value="3"/>
+   <arrow-multiplier value="2.0"/>
 </canvas-link>
 <canvas-zoom>
 <!--   <zoom min="0.2" max="1.0" default="0.3"/>-->

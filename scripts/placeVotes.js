@@ -9,7 +9,7 @@ var dmz =
    , module: require("dmz/runtime/module")
    }
    // Consts
-   , OBJECT_RADIUS = 700
+   , OBJECT_RADIUS = 350
    , MIN_Z = 0
    , MAX_Z = 40000
    , DELTA_RESOLUTION = 3600 // Convert all timestamps from seconds to hours

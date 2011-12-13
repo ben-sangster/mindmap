@@ -267,25 +267,25 @@
             </group>
             <group name="vote-overlay">
                <image name="voteYes" resource="voteYes">
-                  <translate name="group-all" x="-50" y="-30"/>
+                  <translate name="group-all" x="-25" y="-15"/>
 <!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteNo" resource="voteNo">
-                  <translate name="group-all" x="-50" y="-30"/>
+                  <translate name="group-all" x="-25" y="-15"/>
 <!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteDenied" resource="voteDenied">
-                  <translate name="group-all" x="-50" y="-30"/>
+                  <translate name="group-all" x="-25" y="-15"/>
 <!--                  <scale x="2" y="2"/>-->
                </image>
                <image name="voteActive" resource="voteActive">
-                  <translate name="group-all" x="-50" y="-30"/>
+                  <translate name="group-all" x="-25" y="-15"/>
 <!--                  <scale x="2" y="2"/>-->
                </image>
             </group>
             <group name="lock-overlay">
                <image name="lockIcon" resource="lockIcon">
-                  <translate name="group-all" x="30" y="-30"/>
+                  <translate name="group-all" x="20" y="-20"/>
 <!--                  <scale x="2" y="2"/>-->
                </image>
             </group>

@@ -5,7 +5,7 @@ var dmz =
    , vector: require("dmz/types/vector")
    }
    // Consts
-   , OBJECT_RADIUS = 700
+   , OBJECT_RADIUS = 350
    // Variables
    , voteList = {}
    , objectList = {}

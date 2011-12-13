@@ -121,8 +121,11 @@ add = function (item) {
 
       getWidget(item.handle)
       scrollLayout.insertWidget(0, item.widget.widget);
-      item.widget.widget.show();
-      item.widget.visible = true;
+      if (!item.widget.visible) {
+
+         item.widget.visible = true;
+         item.widget.widget.show();
+      }
    }
 };
 
@@ -246,8 +249,10 @@ DataWindow.observe(self, "updateButton", "clicked", function () {
    Object.keys(DataItems).forEach(function (key) {
 
       updateGroups(DataItems[key].handle);
-      if (DataItems[key].widget) { DataItems[key].widget.tags.text(item.tagList.toString()); }
-//      updateTags(DataItems[key].handle);
+      if (DataItems[key].widget) {
+
+         DataItems[key].widget.tags.text(DataItems[key].tagList.toString());
+      }
       updateIcon(DataItems[key].handle);
       updateTitle(DataItems[key].handle);
       updateDate(DataItems[key].handle);
@@ -268,7 +273,6 @@ DataWindow.observe(self, "filterButton", "clicked", function () {
          return tag.indexOf(filterString) !== -1;
       });
 
-      // Should items also be removed from the layout when they are hidden / added when shown?
       if (filter.length && (!state || !state.and(dmz.mind.ShowIconState).bool())) {
 
          add(DataItems[key]);
@@ -293,8 +297,7 @@ getWidget = function (handle) {
          item.date = item.widget.lookup("dateLabel");
          item.group = item.widget.lookup("groupLabel");
          item.title = item.widget.lookup("titleLabel");
-         item.visible = false;
-         item.widget.hide();
+         item.widget.visible = true;
          item.widget.eventFilter(self, function (object, event) {
 
             var type = event.type()
@@ -303,20 +306,21 @@ getWidget = function (handle) {
 
             if (type == dmz.ui.event.MouseButtonPress) {
 
-               if (!SelectedWidget || (SelectedWidget.widget != object)) {
+               if (!SelectedWidget ||
+                  (SelectedWidget.widget && (SelectedWidget.widget.widget != object))) {
 
                   if (SelectedWidget) {
 
-                     palette = SelectedWidget.widget.palette();
+                     palette = SelectedWidget.widget.widget.palette();
                      palette.color(dmz.ui.color.Window, OrigPalette);
-                     SelectedWidget.widget.palette(palette);
+                     SelectedWidget.widget.widget.palette(palette);
                   }
 
-                  SelectedWidget = item;
-                  palette = SelectedWidget.widget.palette();
+                  SelectedWidget = data;
+                  palette = SelectedWidget.widget.widget.palette();
                   if (!OrigPalette) { OrigPalette = palette.color(dmz.ui.color.Window); }
                   palette.color(dmz.ui.color.Window, { r: .82, g: .71, b: .71 });
-                  SelectedWidget.widget.palette(palette);
+                  SelectedWidget.widget.widget.palette(palette);
                }
             }
          });
@@ -324,84 +328,18 @@ getWidget = function (handle) {
 
       data.widget = item;
       item.tags.text(data.tagList.toString());
-//      updateTags(handle);
       updateTitle(handle);
       updateIcon(handle);
       updateDate(handle);
+      dmz.time.setTimer(self, function () { updateGroups(data.handle); });
    }
 };
 
-//getDataItem = function (handle) {
-
-//   var type = dmz.object.type(handle)
-//     , item = DataItems[handle]
-//     ;
-
-//   if (type) {
-
-//      if (!item) {
-
-//         item = { widget: dmz.ui.loader.load("DataItem.ui") };
-//         item.icon = item.widget.lookup("iconLabel");
-//         item.tags = item.widget.lookup("tagLabel");
-//         item.date = item.widget.lookup("dateLabel");
-//         item.group = item.widget.lookup("groupLabel");
-//         item.title = item.widget.lookup("titleLabel");
-//         item.handle = handle;
-//         item.type = type;
-//         item.visible = false;
-//         item.widget.hide();
-//         item.widget.eventFilter(self, function (object, event) {
-
-//            var type = event.type()
-//              , palette
-//              ;
-
-//            if (type == dmz.ui.event.MouseButtonPress) {
-
-//               if (!SelectedWidget || (SelectedWidget.widget != object)) {
-
-//                  if (SelectedWidget) {
-
-//                     palette = SelectedWidget.widget.palette();
-//                     palette.color(dmz.ui.color.Window, OrigPalette);
-//                     SelectedWidget.widget.palette(palette);
-//                  }
-
-//                  SelectedWidget = item;
-//                  palette = SelectedWidget.widget.palette();
-//                  if (!OrigPalette) { OrigPalette = palette.color(dmz.ui.color.Window); }
-//                  palette.color(dmz.ui.color.Window, { r: .82, g: .71, b: .71 });
-//                  SelectedWidget.widget.palette(palette);
-//               }
-//            }
-//         });
-//      }
-
-//      DataItems[handle] = item;
-//      updateTags(handle);
-//      updateTitle(handle);
-//      updateIcon(handle);
-//      updateDate(handle);
-//      dmz.time.setTimer(self, function () { updateGroups(handle); });
-//   }
-//   return item;
-//};
-
 dmz.object.create.observe(self, function (handle, type) {
 
-   var item
-     , text
-     ;
-   if (TypeList[type]) {
-
-      item = { handle: handle, type: type, tagList: [] };
-      DataItems[handle] = item;
-      dmz.time.setTimer(self, function () { updateGroups(handle); });
-   }
+   if (TypeList[type]) { DataItems[handle] = { handle: handle, type: type, tagList: [] }; }
 });
 
-//dmz.object.data.observe(self, dmz.stance.TagHandle, updateTags);
 dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, value) {
 
    var item = DataItems[handle]
@@ -425,8 +363,7 @@ dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, valu
 
 dmz.object.text.observe(self, dmz.stance.TitleHandle, updateTitle);
 dmz.object.text.observe(self, dmz.stance.TextHandle, updateTitle);
-dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTimeHandle, updateTags);
-dmz.object.text.observe(self, dmz.stance.TitleHandle, updateTitle);
+dmz.object.timeStamp.observe(self, dmz.stance.CreatedAtServerTimeHandle, updateDate);
 dmz.object.state.observe(self, dmz.mind.MindState, function (handle, attr, value, prev) {
 
    if (DataItems[handle]) {
@@ -481,10 +418,10 @@ dmz.message.subscribe(self, "CreateObjectMessage", function (data) {
    var palette;
    if (SelectedWidget) {
 
-      addToCanvas(SelectedWidget.handle, data.vector(dmz.mind.MindPosition, 0));
-      palette = SelectedWidget.widget.palette();
+      palette = SelectedWidget.widget.widget.palette();
       palette.color(dmz.ui.color.Window, OrigPalette);
-      SelectedWidget.widget.palette(palette);
+      SelectedWidget.widget.widget.palette(palette);
+      addToCanvas(SelectedWidget.handle, data.vector(dmz.mind.MindPosition, 0));
       SelectedWidget = false;
    }
 });
