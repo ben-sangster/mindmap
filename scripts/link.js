@@ -6,6 +6,7 @@ var dmz =
       , messaging: require("dmz/runtime/messaging")
       , object: require("dmz/components/object")
       , objectType: require("dmz/runtime/objectType")
+      , module: require("dmz/runtime/module")
       }
    // Variables
    , _firstHandle = dmz.object.create(dmz.mind.ToolLinkType)
@@ -13,6 +14,7 @@ var dmz =
    , _toolLink
    , _startNode
    , Exiting = false
+   , addToCanvas
    ;
 
 dmz.messaging.subscribe(self, "DMZ_NORMAL_EXIT_MESSAGE", function () { Exiting = true; });
@@ -125,6 +127,7 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
 
    var superType = dmz.object.type(superHandle)
      , subType = dmz.object.type(subHandle)
+     , state
      , linkHandle
      , handle
      ;
@@ -143,6 +146,13 @@ function (linkObjHandle, attrHandle, superHandle, subHandle) {
             dmz.object.link(dmz.mind.ServerLink, superHandle, subHandle);
          if (linkHandle) {
 
+            state = dmz.object.state(superHandle, dmz.mind.MindState);
+            if (!state || !state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(superHandle); }
+
+            state = dmz.object.state(subHandle, dmz.mind.MindState);
+            if (!state || !state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(subHandle); }
+
+            if (dmz.object.state(superHandle, dmz.mind.MindState))
             handle = dmz.object.linkAttributeObject(linkHandle) || dmz.object.create(dmz.mind.LinkData);
             dmz.object.flag(handle, dmz.mind.MindActive, true);
             if (!dmz.object.isActivated(handle)) { dmz.object.activate(handle); }
@@ -239,4 +249,9 @@ dmz.object.flag.observe(self, dmz.mind.MindActive, function (handle, attr, value
          }
       }
    });
+});
+
+dmz.module.subscribe(self, "dataDock", function (Mode, module) {
+
+   if (Mode === dmz.module.Activate) { addToCanvas = module.addToCanvas; }
 });
