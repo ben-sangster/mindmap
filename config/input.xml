@@ -14,6 +14,7 @@
    <plugin name="dmzInputPluginMouseEventToMessage" unique="tag-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="lock-event"/>
    <plugin name="dmzInputPluginMouseEventToMessage" unique="CreateObjectEvent"/>
+   <plugin name="dmzInputPluginMouseEventToMessage" unique="zoom-event"/>
 </plugin-list>
 <key-events>
    <channel>
@@ -124,6 +125,21 @@
          </action>
       </toolButton>
    </channel>
+   <channel name="zoom-tool" message="Update_Tool_Name">
+      <attribute type="string" name="String">
+         <element value="Zoom"/>
+      </attribute>
+      <toolButton autoRaise="True">
+         <button>
+            <iconSize width="32" height="32"/>
+         </button>
+         <action text="Tag" checkable="True" checked="True">
+            <icon>
+               <image file="assets/icon_zoom.svg"/>
+            </icon>
+         </action>
+      </toolButton>
+   </channel>
 </tool-name>
 <mouse-move-event>
    <input>
@@ -133,6 +149,7 @@
       <channel name="delete-tool"/>
       <channel name="tag-tool"/>
       <channel name="lock-tool"/>
+      <channel name="zoom-tool"/>
    </input>
    <target name="highlight"/>
    <deactivate message="Object_Highlight_Deactivate_Message"/>
@@ -325,6 +342,33 @@
       </state>
    </converter>
 </lock-event>
+<zoom-event>
+   <input>
+      <channel name="zoom-tool"/>
+      <source name="canvas"/>
+   </input>
+   <!-- <target name="zoomLevel"/> -->
+   <converter start="zoom-start" type="2D">
+      <state name="zoom-start" type="basic">
+         <condition
+               button="1"
+               action="pressed"
+               result="position"
+               message="Zoom_In_Message"
+               next="zoom-start">
+            <attribute type="position" name="position"/>
+         </condition>
+         <condition
+               button="2"
+               action="pressed"
+               result="position"
+               message="Zoom_Out_Message"
+               next="zoom-start">
+            <attribute type="position" name="position"/>
+         </condition>
+      </state>
+   </converter>
+</zoom-event>
 <CreateObjectEvent>
    <input>
       <source name="canvas"/>
