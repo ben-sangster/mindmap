@@ -40,7 +40,7 @@
       <max x="1000" y="40000"/>-->
 <!--      <min x="-500" y="0"/>-->
       <min x="-10000" y="0"/>
-      <max x="10000" y="40000"/>
+      <max x="10000" y="60000"/>
    </scene>
    <scrollbars value="true"/>
    <setTop value="true"/>
@@ -182,10 +182,6 @@
    <reverse-flow-state name="Flow_Reverse"/>
    <arrow-multiplier value="2.0"/>
 </canvas-link>
-<!--<canvas-zoom>
-   <zoom min="0.7" max="1.02" default="0.8"/>
-   <hide value="true"/>
-</canvas-zoom>-->
 <icon-pallet>
    <use-session value="false"/>
 </icon-pallet>
@@ -198,17 +194,13 @@
 </canvas-pick>
 <canvas-zoom-message>
    <attribute position="position"/>
-   <zoom amt="0.05" start="true"/>
+   <zoom amt="0.05"/>
    <zoom amt="0.1"/>
-   <zoom amt="0.3"/>
+   <zoom amt="0.3" start="true"/>
    <zoom amt="0.8"/>
-   <!--<zoom amt="0.8" start="true"/>-->
    <zoom amt="1.02"/>
 </canvas-zoom-message>
 <zoomText>
-<!--   <data zoom="0.33" length="20"/>
-   <data zoom="0.40" length="70"/>
-   <data zoom="0.51" length="140"/> -->
    <data zoom="0.75" length="20"/>
    <data zoom="0.8" length="70"/>
    <data zoom="1.0" length="140"/>
