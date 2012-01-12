@@ -8,7 +8,7 @@
 #define VsDir "c:\Program Files\Microsoft Visual Studio 9.0"
 
 [Setup]
-AppId={{1A497040-702B-11E0-A1F0-0800200C9A66}
+AppId={{0B237220-3D79-11E1-B33D-E00F4924019B}
 AppName={#AppName}
 AppVerName={#AppVerName}
 AppPublisher={#Publisher}
