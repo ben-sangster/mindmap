@@ -13,7 +13,7 @@ dmz.messaging.subscribe(self, "Object_Delete_Message",  function (data) {
      , links
      ;
 
-   if (handle) {
+   if (handle && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       if (dmz.object.isObject(handle)) {
 

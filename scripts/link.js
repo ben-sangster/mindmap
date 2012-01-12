@@ -39,7 +39,7 @@ dmz.messaging.subscribe(self, "First_Link_Object_Message", function (data) {
 
    _startNode = null;
 
-   if (dmz.data.isTypeOf(data)) {
+   if (dmz.data.isTypeOf(data) && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       handle = data.handle("object", 0);
 
@@ -85,7 +85,7 @@ dmz.messaging.subscribe(self, "Second_Link_Object_Message", function (data) {
       _toolLink = null;
    }
 
-   if (dmz.data.isTypeOf(data)) {
+   if (dmz.data.isTypeOf(data) && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       endNode = data.handle("object", 0);
       if (endNode) {

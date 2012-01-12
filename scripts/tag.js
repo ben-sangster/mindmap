@@ -85,17 +85,20 @@ dmz.message.subscribe(self, "TagMessage", function (data) {
       currentTagList[tag].hidden(current);
    });
 
-   tagWindow.open(self, function (result) {
+   if (dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
-      if (result) {
+      tagWindow.open(self, function (result) {
 
-         var data = dmz.data.create();
-         list = Object.keys(currentTagList).filter(function (tag) { return !currentTagList[tag].hidden(); });
-         list.forEach(function (tag, index) { data.string(dmz.stance.TagHandle, index, tag); });
-         data.number(dmz.stance.TotalHandle, 0, list.length);
-         dmz.object.data(handle, dmz.stance.TagHandle, data);
-      }
-   });
+         if (result) {
+
+            var data = dmz.data.create();
+            list = Object.keys(currentTagList).filter(function (tag) { return !currentTagList[tag].hidden(); });
+            list.forEach(function (tag, index) { data.string(dmz.stance.TagHandle, index, tag); });
+            data.number(dmz.stance.TotalHandle, 0, list.length);
+            dmz.object.data(handle, dmz.stance.TagHandle, data);
+         }
+      });
+   }
 });
 
 dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, data) {

@@ -155,7 +155,10 @@ updateVoteObjectPositions = function (voteHandle) {
             delta = position.subtract(data.lastPos);
          }
          else { delta = getPosition(index, data.links.length); }
-         if (delta) { dmz.object.position(objectHandle, dmz.mind.MindPosition, delta.add(data.position)); }
+         if (delta && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
+
+            dmz.object.position(objectHandle, dmz.mind.MindPosition, delta.add(data.position));
+         }
       });
    }
 }

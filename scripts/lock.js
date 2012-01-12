@@ -13,7 +13,7 @@ dmz.messaging.subscribe(self, "Object_Lock_Message",  function (data) {
      , state
      ;
 
-   if (handle && dmz.object.isObject(handle)) {
+   if (handle && dmz.object.isObject(handle) && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       if (dmz.object.type(handle).isOfType(dmz.mind.CanvasLinkData)) {}
       else {

@@ -380,7 +380,7 @@ addToCanvas = function (handle, position) {
      , color = dmz.mind.GroupColorAllState
      , state
      ;
-   if (item) {
+   if (item && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       updateGroups(handle);
       if (position) { dmz.object.position(item.handle, dmz.mind.MindPosition, position); }

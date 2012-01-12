@@ -51,7 +51,7 @@ dmz.messaging.subscribe(self, "Select_Move_Object_Message", function (data) {
 
 dmz.messaging.subscribe(self, "Unselect_Move_Object_Message", function (data) {
 
-   if (_item && _pos) {
+   if (_item && _pos && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       dmz.object.position(_item, dmz.mind.MindServerPosition, _pos);
    }

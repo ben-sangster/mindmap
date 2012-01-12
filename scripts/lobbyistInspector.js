@@ -78,7 +78,7 @@ _updatePostedAt = function (handle) {
 _updateMessage = function (handle) {
 
    if (handle === _object) { _message.text(dmz.object.text(handle, dmz.stance.TextHandle)); }
-}
+};
 
 dmz.object.text.observe(self, dmz.stance.PictureHandle, _updateAvatar);
 dmz.object.text.observe(self, dmz.stance.TextHandle, _updateMessage);

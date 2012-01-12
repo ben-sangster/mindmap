@@ -103,16 +103,19 @@ arrangeVotes = function () {
    voteList.sort(function (vote1, vote2) { return getVoteTime(vote1) - getVoteTime(vote2); });
    voteList = voteList.filter(function (voteHandle) { return !Votes[voteHandle].locked; });
 
-   for (idx = 0; idx < voteList.length; idx += 1) {
+   if (dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
-      if (!idx) { nextZ = getLastLockedVoteZ(lockedList) + minimumDistance; }
-      else { nextZ += minimumDistance; }
-      state = dmz.object.state(voteList[idx], dmz.mind.MindState) || dmz.mask.create();
-      if (!state.and(dmz.mind.ShowIconState).bool()) {
+      for (idx = 0; idx < voteList.length; idx += 1) {
 
-         addToCanvas(voteList[idx], [0, 0, nextZ]);
+         if (!idx) { nextZ = getLastLockedVoteZ(lockedList) + minimumDistance; }
+         else { nextZ += minimumDistance; }
+         state = dmz.object.state(voteList[idx], dmz.mind.MindState) || dmz.mask.create();
+         if (!state.and(dmz.mind.ShowIconState).bool()) {
+
+            addToCanvas(voteList[idx], [0, 0, nextZ]);
+         }
+         else { dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]); }
       }
-      else { dmz.object.position(voteList[idx], dmz.mind.MindServerPosition, [0, 0, nextZ]); }
    }
 };
 

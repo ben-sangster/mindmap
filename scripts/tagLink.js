@@ -29,44 +29,47 @@ dmz.object.data.observe(self, dmz.stance.TagHandle, function (handle, attr, data
 dmz.messaging.subscribe(self, "Auto_Link_Tags_Message", function () {
 
    var Links = {};
-   Object.keys(Tags).forEach(function (tag) {
+   if (dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
-      var data = Tags[tag];
-      data.votes.forEach(function (voteHandle) {
+      Object.keys(Tags).forEach(function (tag) {
 
-         data.objects.forEach(function (objectHandle) {
+         var data = Tags[tag];
+         data.votes.forEach(function (voteHandle) {
 
-            if (!Links[voteHandle]) { Links[voteHandle] = []; }
-            Links[voteHandle].push(objectHandle);
+            data.objects.forEach(function (objectHandle) {
+
+               if (!Links[voteHandle]) { Links[voteHandle] = []; }
+               Links[voteHandle].push(objectHandle);
+            });
          });
       });
-   });
-   Object.keys(Links).forEach(function (handleStr) {
+      Object.keys(Links).forEach(function (handleStr) {
 
-      var handle = parseInt(handleStr)
-        , state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create()
-        ;
-
-      Links[handleStr].forEach(function (objectHandle) {
-
-         var data
-           , linkHandle
-           , attrObj
+         var handle = parseInt(handleStr)
+           , state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create()
            ;
-         if (!dmz.object.linkHandle(dmz.mind.CanvasLink, handle, objectHandle) &&
-            !dmz.object.linkHandle(dmz.mind.CanvasLink, objectHandle, handle)) {
 
-            if (state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(objectHandle); }
-            linkHandle = dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
-            if (linkHandle) {
+         Links[handleStr].forEach(function (objectHandle) {
 
-               attrObj = dmz.object.create(dmz.mind.CanvasLinkData);
-               dmz.object.activate(attrObj);
-               dmz.object.linkAttributeObject(linkHandle, attrObj);
+            var data
+              , linkHandle
+              , attrObj
+              ;
+            if (!dmz.object.linkHandle(dmz.mind.CanvasLink, handle, objectHandle) &&
+               !dmz.object.linkHandle(dmz.mind.CanvasLink, objectHandle, handle)) {
+
+               if (state.and(dmz.mind.ShowIconState).bool()) { addToCanvas(objectHandle); }
+               linkHandle = dmz.object.link(dmz.mind.CanvasLink, handle, objectHandle);
+               if (linkHandle) {
+
+                  attrObj = dmz.object.create(dmz.mind.CanvasLinkData);
+                  dmz.object.activate(attrObj);
+                  dmz.object.linkAttributeObject(linkHandle, attrObj);
+               }
             }
-         }
+         });
       });
-   });
+   }
 });
 
 dmz.module.subscribe(self, "dataDock", function (Mode, module) {
