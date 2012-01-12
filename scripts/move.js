@@ -5,6 +5,7 @@ var dmz =
        , undo: require("dmz/runtime/undo")
        , vector: require("dmz/types/vector")
        , mind: require("mindConst")
+       , stance: require("stanceConst")
        }
   // Variables
   , _firstMove = false

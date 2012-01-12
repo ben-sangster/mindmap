@@ -7,15 +7,15 @@ if [ "$CHANNEL" = "" ] ; then
    CHANNEL=devel
 fi
 
-VERSION_XML=$DEPTH/bin/win32-opt/STANCE.app/config/version.xml
-UPDATE=STANCE-`cat $DEPTH/tmp/win32-opt/stanceapp/versionnumber.txt`-`cat $DEPTH/tmp/win32-opt/stanceapp/buildnumber.txt`
-OLD_UPDATE=STANCE-`cat $DEPTH/tmp/win32-opt/stanceapp/buildnumber.txt`
+VERSION_XML=$DEPTH/bin/win32-opt/mindmap.app/config/version.xml
+UPDATE=mindmap-`cat $DEPTH/tmp/win32-opt/mindmapapp/versionnumber.txt`-`cat $DEPTH/tmp/win32-opt/mindmapapp/buildnumber.txt`
+OLD_UPDATE=mindmap-`cat $DEPTH/tmp/win32-opt/mindmapapp/buildnumber.txt`
 INSTALLER=$DEPTH/installers/$UPDATE.exe
 
 echo "publishing $INSTALLER..."
 
-echo "scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/win32-$CHANNEL/STANCE.xml"
-scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/win32-$CHANNEL/STANCE.xml
+echo "scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/win32-$CHANNEL/mindmap.xml"
+scp $VERSION_XML dmzupdate.chds.us:/home/dmzupdate.chds.us/public/latest/win32-$CHANNEL/mindmap.xml
 
 echo "scp ./changelog.html dmzupdate.chds.us:/home/dmzupdate.chds.us/public/downloads/$UPDATE.html"
 scp ./changelog.html dmzupdate.chds.us:/home/dmzupdate.chds.us/public/downloads/$UPDATE.html

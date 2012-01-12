@@ -7,6 +7,7 @@ var dmz =
       , object: require("dmz/components/object")
       , objectType: require("dmz/runtime/objectType")
       , module: require("dmz/runtime/module")
+      , stance: require("stanceConst")
       }
    // Variables
    , _firstHandle = dmz.object.create(dmz.mind.ToolLinkType)

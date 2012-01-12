@@ -4,6 +4,7 @@ var dmz =
    , object: require("dmz/components/object")
    , mask: require("dmz/types/mask")
    , messaging: require("dmz/runtime/messaging")
+   , stance: require("stanceConst")
    }
    ;
 

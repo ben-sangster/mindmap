@@ -3,6 +3,7 @@ var dmz =
    , data: require("dmz/runtime/data")
    , object: require("dmz/components/object")
    , messaging: require("dmz/runtime/messaging")
+   , stance: require("stanceConst")
    }
    ;
 

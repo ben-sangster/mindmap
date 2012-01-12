@@ -1,10 +1,10 @@
 #!/bin/sh
 DEPTH=../../..
-rm -f ./stancesetup.exe
+rm -f ./mindmap.exe
 lmk -m opt -b
-$DEPTH/depend/InnoSetup5/ISCC.exe stance.iss
+$DEPTH/depend/InnoSetup5/ISCC.exe mindmap.iss
 INSTALLER_PATH=$DEPTH/installers
 if [ ! -d $INSTALLER_PATH ] ; then
    mkdir $INSTALLER_PATH
 fi
-cp stancesetup.exe $INSTALLER_PATH/stance-`cat $DEPTH/tmp/win32-opt/stanceapp/versionnumber.txt`-`cat $DEPTH/tmp/win32-opt/stanceapp/buildnumber.txt`.exe
+cp mindmap.exe $INSTALLER_PATH/mindmap-`cat $DEPTH/tmp/win32-opt/mindmapapp/versionnumber.txt`-`cat $DEPTH/tmp/win32-opt/mindmapapp/buildnumber.txt`.exe
