@@ -1,6 +1,6 @@
 #!/bin/sh
 DEPTH=../../..
-rm -f ./mindmap.exe
+rm -f ./mindmapsetup.exe
 lmk -m opt -b
 $DEPTH/depend/InnoSetup5/ISCC.exe mindmap.iss
 INSTALLER_PATH=$DEPTH/installers
