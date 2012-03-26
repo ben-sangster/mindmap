@@ -74,6 +74,7 @@
    <resource name="voteDenied" file="voteDenied.svg"/>
    <resource name="voteActive" file="questionmark.svg"/>
    <resource name="lockIcon" file="icon-lock.svg"/>
+   <resource name="dtfIcon" file="DTF.svg"/>
 <!-- STANCE AVATARS -->
    <resource name="AvatarDefault" file="AvatarDefault.png"/>
    <resource name="AvatarEye" file="avatar_AllSeeingEye.png"/>

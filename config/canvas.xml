@@ -128,6 +128,12 @@
                   <scale x="0.75" y="0.75"/>
                </image>
             </group>
+            <group name="dtf-overlay">
+               <image name="dtfIcon" resource="dtfIcon">
+                  <translate name="group-all" x="4" y="-4"/>
+                  <scale x="0.75" y="0.75"/>
+               </image>
+            </group>
          </items>
          <text>
             <item name="name" attribute="mind_label"/>
@@ -139,6 +145,9 @@
             </state>
             <state name="Highlight" group="text">
                <item name="name-highlight"/>
+            </state>
+            <state name="DTF | Show_Icon" group="dtf-overlay">
+               <item name="dtfIcon"/>
             </state>
             <state name="Lock | Show_Icon" group="lock-overlay">
                <item name="lockIcon"/>

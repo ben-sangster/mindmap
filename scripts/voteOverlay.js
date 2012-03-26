@@ -1,7 +1,9 @@
 var dmz =
    { object: require("dmz/components/object")
+   , mask: require("dmz/types/mask")
    , mind: require("mindConst")
    , stance: require("stanceConst")
+   , time: require("dmz/runtime/time")
    }
 
 dmz.object.scalar.observe(self, dmz.stance.VoteState, function (handle, attr, value) {
@@ -25,5 +27,17 @@ dmz.object.scalar.observe(self, dmz.stance.VoteState, function (handle, attr, va
       };
 
       dmz.object.state(handle, dmz.mind.MindState, state);
+   }
+});
+
+dmz.object.flag.observe(self, dmz.stance.DisruptionInTheForceHandle, function (handle, attr, value) {
+
+   if (value) {
+
+      dmz.time.setTimer(self, function () {
+
+         var state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create();
+         dmz.object.state(handle, state.or(dmz.mind.DTFState));
+      });
    }
 });

@@ -50,6 +50,7 @@ var dmz =
         , FlowForwardState: dmz.defs.lookupState("Flow_Forward")
         , FlowReverseState: dmz.defs.lookupState("Flow_Reverse")
         , LockState: dmz.defs.lookupState("Lock")
+        , DTFState: dmz.defs.lookupState("DTF")
         }
 
    , Functions =
