@@ -130,7 +130,7 @@
             </group>
             <group name="dtf-overlay">
                <image name="dtfIcon" resource="dtfIcon">
-                  <translate name="group-all" x="4" y="-4"/>
+                  <translate name="group-all" x="0" y="-4"/>
                   <scale x="0.75" y="0.75"/>
                </image>
             </group>

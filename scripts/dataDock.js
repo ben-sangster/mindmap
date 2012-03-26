@@ -381,7 +381,6 @@ addToCanvas = function (handle, position) {
      , state
      ;
 
-   self.log.warn ("addToCanvas:", item, dmz.object.hil(), dmz.stance.TagDataFlag, dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag));
    if (item && dmz.stance.isAllowed(dmz.object.hil(), dmz.stance.TagDataFlag)) {
 
       updateGroups(handle);
@@ -406,7 +405,6 @@ addToCanvas = function (handle, position) {
          default: break;
          };
       }
-      self.log.warn ("--ATC:", state);
       dmz.object.state(item.handle, dmz.mind.MindState, state.or(dmz.mind.ShowIconState).or(color));
    }
 };

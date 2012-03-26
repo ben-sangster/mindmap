@@ -170,6 +170,41 @@
    <resource name="WHC_adv2" file="WHC_ad03_security.png"/>
    <resource name="WHC_adv3" file="WHC_ad04_outreach.png"/>
    <resource name="WHC_adv4" file="WHC_ad05_trade.png"/>
+   <resource name="WHC_outreach_alt" file="WHC_Advisor_outreach.png"/>
+   <resource name="WHC_population_alt" file="WHC_Advisor_population.png"/>
+   <resource name="WHC_pr_alt" file="WHC_Advisor_pr.png"/>
+   <resource name="WHC_security_alt" file="WHC_Advisor_security.png"/>
+   <resource name="WHC_trade_alt" file="WHC_Advisor_trade.png"/>
+   <resource name="MexicanGov_adv0_alt" file="MexicanGov_ad01_outreach.png"/>
+   <resource name="MexicanGov_adv1_alt" file="MexicanGov_ad02_diplomatic.png"/>
+   <resource name="MexicanGov_adv2_alt" file="MexicanGov_ad03_domesticGovernance.png"/>
+   <resource name="MexicanGov_adv3_alt" file="MexicanGov_ad04_pr.png"/>
+   <resource name="MexicanGov_adv4_alt" file="MexicanGov_ad05_militaryAndSecurity.png"/>
+   <resource name="Cartel2_adv0_alt" file="Cartel2_ad01_information.png"/>
+   <resource name="Cartel2_adv1_alt" file="Cartel2_ad02_enforcement.png"/>
+   <resource name="Cartel2_adv2_alt" file="Cartel2_ad03_business.png"/>
+   <resource name="Cartel2_adv3_alt" file="Cartel2_ad04_political.png"/>
+   <resource name="Cartel2_adv4_alt" file="Cartel2_ad05_distribution.png"/>
+   <resource name="ACLU_adv0_alt" file="ACLU_ad01_legal.png"/>
+   <resource name="ACLU_adv1_alt" file="ACLU_ad02_laRaza.png"/>
+   <resource name="ACLU_adv2_alt" file="ACLU_ad03_pr.png"/>
+   <resource name="ACLU_adv3_alt" file="ACLU_ad04_outreach.png"/>
+   <resource name="ACLU_adv4_alt" file="ACLU_ad05_security.png"/>
+   <resource name="CBP_adv0_alt" file="CBP_ad01_outreach.png"/>
+   <resource name="CBP_adv1_alt" file="CBP_ad02_publicrelations.png"/>
+   <resource name="CBP_adv2_alt" file="CBP_ad03_borderpatrol.jpg"/>
+   <resource name="CBP_adv3_alt" file="CBP_ad04_customs.png"/>
+   <resource name="CBP_adv4_alt" file="CBP_ad05_infrastructure.png"/>
+   <resource name="Business_adv0_alt" file="business_ad01_pr.png"/>
+   <resource name="Business_adv1_alt" file="business_ad02_security.png"/>
+   <resource name="Business_adv2_alt" file="business_ad03_trade.png"/>
+   <resource name="Business_adv3_alt" file="business_ad04_strategicIntel.png"/>
+   <resource name="Business_adv4_alt" file="business_ad05_lobby.png"/>
+   <resource name="Cartel1_adv0_alt" file="Cartel1_ad01_political.png"/>
+   <resource name="Cartel1_adv1_alt" file="Cartel1_ad02_distribution.png"/>
+   <resource name="Cartel1_adv2_alt" file="Cartel1_ad03_enforcement.png"/>
+   <resource name="Cartel1_adv3_alt" file="Cartel1_ad04_information.png"/>
+   <resource name="Cartel1_adv4_alt" file="Cartel1_ad05_political.png"/>
 </resource-map>
 </runtime>
 </dmz>

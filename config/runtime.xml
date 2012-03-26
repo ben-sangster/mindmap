@@ -290,6 +290,12 @@
 <!--                  <scale x="2" y="2"/>-->
                </image>
             </group>
+            <group name="dtf-overlay">
+               <image name="dtfIcon" resource="dtfIcon">
+                  <translate name="group-all" x="0" y="-50"/>
+                  <scale x="1.25" y="1.25"/>
+               </image>
+            </group>
          </items>
          <text>
             <item name="name" attribute="mind_label"/>
@@ -304,6 +310,9 @@
             </state>
             <state name="Lock | Show_Icon" group="lock-overlay">
                <item name="lockIcon"/>
+            </state>
+            <state name="DTF | Show_Icon" group="dtf-overlay">
+               <item name="dtfIcon"/>
             </state>
             <state name="Vote_Active | Show_Icon" group="vote-overlay">
                <item name="voteActive"/>

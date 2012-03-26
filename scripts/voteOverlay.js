@@ -30,14 +30,14 @@ dmz.object.scalar.observe(self, dmz.stance.VoteState, function (handle, attr, va
    }
 });
 
-dmz.object.flag.observe(self, dmz.stance.DisruptionInTheForceHandle, function (handle, attr, value) {
+dmz.object.flag.observe(self, dmz.stance.DisturbanceInTheForceHandle, function (handle, attr, value) {
 
    if (value) {
 
       dmz.time.setTimer(self, function () {
 
          var state = dmz.object.state(handle, dmz.mind.MindState) || dmz.mask.create();
-         dmz.object.state(handle, state.or(dmz.mind.DTFState));
+         dmz.object.state(handle, dmz.mind.MindState, state.or(dmz.mind.DTFState));
       });
    }
 });

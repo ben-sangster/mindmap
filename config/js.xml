@@ -15,6 +15,7 @@
    <path value="./scripts"/>
    <path value="./ui"/>
    <path value="../js/scripts"/>
+   <instance name="login"/>
    <instance name="link"/>
    <instance name="highlight"/>
    <instance name="linkObj"/>
