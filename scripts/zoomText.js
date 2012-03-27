@@ -47,10 +47,8 @@ breakStr = function (str, prevStr) {
 getZoomLength = function (zoom) {
 
    var result = 0;
-//   self.log.warn ("  Zoom: ", zoom);
    zoomTable.forEach(function (data) {
 
-//      self.log.warn ("        ", data.zoom, (!result && (zoom >= data.zoom)));
       if (!result && (zoom >= data.zoom)) { result = data.length; }
    });
    return result;
@@ -63,7 +61,6 @@ updateObject = function (objectData) {
 
       text = dmz.object.text(objectData.handle, objectData.attr);
       if (text.length > currentLength) { text = text.substr(0, currentLength) + "..."; }
-//      self.log.warn ("     ", objectData.handle, objectData.attr, text);
       dmz.object.text(objectData.handle, dmz.mind.MindLabel, breakStr(text));
    }
 };
@@ -74,7 +71,6 @@ updateObject = function (objectData) {
    dataList.forEach(function (dataConfig) {
 
       zoomTable.push({ zoom: dataConfig.number("zoom"), length: dataConfig.number("length") });
-//      self.log.warn ("Zoom:", dataConfig.number("zoom"), "Length:", dataConfig.number("length"));
    });
    zoomTable.sort(function (obj1, obj2) { return obj2.zoom - obj1.zoom; });
    zoomTable.forEach(function (data) { self.log.warn (data.zoom, data.length); });
@@ -85,10 +81,8 @@ dmz.messaging.subscribe(self, "Canvas_Zoom_Message",  function (data) {
    var labelLength = getZoomLength(dmz.data.unwrapNumber(data) || 0)
      ;
 
-//   self.log.warn ("Zoom:", dmz.data.unwrapNumber(data), "Length:", labelLength, currentLength);
    if (labelLength != currentLength) {
 
-//      self.log.warn ("  Update:");
       currentLength = labelLength;
       Object.keys(objectTable).forEach(function (key) { updateObject(objectTable[key]); });
    }
