@@ -1,6 +1,6 @@
 #define BuildMode "opt"
 #define AppName "mindmap"
-#define AppVerName "mindmap 0.1.7"
+#define AppVerName "mindmap 1.0.0"
 #define Publisher "CHDS"
 #define AppURL "http://dmzdev.chds.us"
 #define AppExeName "mindmap.exe"

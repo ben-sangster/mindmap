@@ -36,6 +36,7 @@
    <instance name="tag"/>
    <instance name="voteOverlay"/>
    <instance name="lock"/>
+   <instance name="clear-archive" scope="archive-module"/>
 </javascript>
 </dmz>
 
